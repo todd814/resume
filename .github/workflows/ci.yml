@@ -28,11 +28,10 @@ jobs:
           
       - name: Report Missing Links
         if: ${{ steps.linkcheck.outputs.exit_code != 0 }}
-        uses: peter-evans/create-issue-from-file@v2.3.2
-        with:
-          title: Link Checker Report
-          content-filepath: link-checker/out.md
-          labels: report, automated issue
+        run: |
+          echo "::warning::Broken links have been detected"
+          #echo "::error::Broken links have been detected"
+          #exit ${{ steps.linkcheck.outputs.exit_code }}
 
       - name: Generate PDF
         uses: fifsky/html-to-pdf-action@v0.0.2
