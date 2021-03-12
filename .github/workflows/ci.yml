@@ -48,7 +48,7 @@ jobs:
 
       - name: Sync to S3
         if: ${{ env.IS_DEPLOY == 'true' }}
-        uses: jakejarvis/s3-sync-action@v0.5.1
+        uses: kefranabg/s3-sync-action@v0.1.0
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
