@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+  workflow_dispatch:
+
+env:
+  DEFAULT_DOC: resume.html
+  AWS_REGION: us-west-1
+  S3_ENDPOINT: no-idea
+  IS_DEPLOY: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Link Checking
+        id: linkcheck
+        uses: peter-evans/link-checker@v1.2.2
+        with:
+          args: -v -r *
+          
+      - name: Report Missing Links
+        if: ${{ steps.linkcheck.outputs.exit_code != 0 }}
+        run: |
+          echo "::warning::Broken links have been detected"
+          #echo "::error::Broken links have been detected"
+          #exit ${{ steps.linkcheck.outputs.exit_code }}
+
+      - name: Generate PDF
+        uses: fifsky/html-to-pdf-action@v0.0.2
+        with:
+          htmlFile: src/${{ env.DEFAULT_DOC }}
+          outputFile: src/resume.pdf
+          pdfOptions: '{"format": "A4", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
+      
+      - name: Minify
+        if: ${{ env.IS_DEPLOY == 'true' }}
+        uses: Charlesworth/compress-action@1.0.0
+        with:
+          target-directory: src
+
+      - name: Sync to S3
+        if: ${{ env.IS_DEPLOY == 'true' }}
+        uses: jakejarvis/s3-sync-action@v0.5.1
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ env.AWS_REGION }}       # optional: defaults to us-east-1
+          AWS_S3_ENDPOINT: ${{ env.S3_ENDPOINT }} # optional: set the target endpoint
+          SOURCE_DIR: src                         # optional: defaults to entire repository
+          DEST_DIR: /                             # optional: sets target directory
