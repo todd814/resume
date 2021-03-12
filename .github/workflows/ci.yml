@@ -9,8 +9,8 @@ on:
 
 env:
   DEFAULT_DOC: resume.html
-  AWS_REGION: us-west-1
-  S3_ENDPOINT: no-idea
+  AWS_REGION: us-east-1
+  S3_ENDPOINT: ${{ env.S3_ENDPOINT }}
   IS_DEPLOY: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
 
 jobs:
@@ -50,7 +50,7 @@ jobs:
         if: ${{ env.IS_DEPLOY == 'true' }}
         uses: kefranabg/s3-sync-action@v0.1.0
         with:
-          args: --acl public-read --follow-symlinks --delete
+          args: --follow-symlinks
         env:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
