@@ -20,14 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: HTML Linting
-        id: lint
-        uses: github/super-linter@v3.15.3
-        with:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: master
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
       - name: Link Checking
         id: linkcheck
         uses: peter-evans/link-checker@v1.2.2
