@@ -38,7 +38,7 @@ jobs:
         with:
           htmlFile: src/${{ env.DEFAULT_DOC }}
           outputFile: src/resume.pdf
-          pdfOptions: '{"format": "A4", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
+          pdfOptions: '{"format": "Tabloid", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
       
       - name: Minify
         if: ${{ env.IS_DEPLOY == 'true' }}
