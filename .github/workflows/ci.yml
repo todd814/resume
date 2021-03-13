@@ -38,7 +38,7 @@ jobs:
         with:
           htmlFile: src/${{ env.DEFAULT_DOC }}
           outputFile: src/Todd_DeBlieck_Resume.pdf
-          pdfOptions: '{"format": "Tabloid", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
+          pdfOptions: '{"format": "Tabloid", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"},"printBackground": "True"}'
       
       - name: Minify
         if: ${{ env.IS_DEPLOY == 'true' }}
