@@ -37,7 +37,7 @@ jobs:
         uses: fifsky/html-to-pdf-action@v0.0.2
         with:
           htmlFile: src/${{ env.DEFAULT_DOC }}
-          outputFile: src/resume.pdf
+          outputFile: src/Todd_DeBlieck_Resume.pdf
           pdfOptions: '{"format": "Tabloid", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
       
       - name: Minify
