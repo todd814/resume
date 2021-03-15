@@ -15,9 +15,7 @@ jobs:
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v2
-        with:
-          tf_actions_working_dir: [path: 'terraform']
-
+         
       - name: 'Terraform Setup'
         uses: hashicorp/setup-terraform@v1
         with:
