@@ -36,15 +36,15 @@ jobs:
       - name: Generate PDF
         uses: fifsky/html-to-pdf-action@v0.0.2
         with:
-          htmlFile: src/${{ env.DEFAULT_DOC }}
-          outputFile: src/Todd_DeBlieck_Resume.pdf
+          htmlFile: ./src/${{ env.DEFAULT_DOC }}
+          outputFile: ./src/Todd_DeBlieck_Resume.pdf
           pdfOptions: '{"printBackground": true, "preferCSSPageSize": true, "format": "Tabloid", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
       
       - name: Minify
         if: ${{ env.IS_DEPLOY == 'true' }}
         uses: Charlesworth/compress-action@1.0.0
         with:
-          target-directory: src
+          target-directory: ./src
       
       - name: Sync to S3
         if: ${{ env.IS_DEPLOY == 'true' }}

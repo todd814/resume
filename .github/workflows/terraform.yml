@@ -1,7 +1,8 @@
 name: 'Terraform Plan & Test'
 on:
   push:
-    branches: [ dev ]
+    branches: [ master ]
+    
 defaults:
       run:
         shell: bash
