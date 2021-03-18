@@ -9,11 +9,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      with:
+      fetch-depth: 0
       
       - name: HTML Linting
         id: lint
-        uses: github/super-linter@v3.15.3
-        with:
-          VALIDATE_ALL_CODEBASE: false
+        uses: github/super-linter@v3
+        env:
+          VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
