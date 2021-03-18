@@ -19,6 +19,11 @@ jobs:
         id: lint
         uses: github/super-linter@v3
         env:
-          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_ALL_CODEBASE: true
+          DISABLE_ERRORS: true
+          VALIDATE_HTML: true
+          VALIDATE_TERRAFORM: true
+          VALIDATE_TERRAFORM_TERRASCAN: true
+          VALIDATE_YAML: true
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

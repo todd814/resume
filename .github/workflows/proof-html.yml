@@ -1,0 +1,24 @@
+name: proof-html
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    name: proof-html
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      
+      - name: proof-html
+      - uses: anishathalye/proof-html@v1
+      with:
+        directory: ./src
+        enforce_https: false
+        tokens: |
+          {"https://github.com": "${{ secrets.GITHUB_TOKEN }}"}
