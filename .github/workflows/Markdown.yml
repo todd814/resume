@@ -1,0 +1,43 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Markdown-HTML
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Markdown-HTML
+  # You may pin to the exact commit or the version.
+  # uses: ZacJW/markdown-html-action@3865edcff67a98f3984bd6312111f0d4deec57d4
+  uses: ZacJW/markdown-html-action@1.1.1
+  with:
+    # A JSON list of a list of paths to markdown files to render in to HTML files
+    input_files: ./src/resume.html
+    # A JSON list of paths to save the rendered HTML files to
+    output_files: 
+    # (boolean) Whether or not a file should be automatically excluded from being included more than once in a given output file
+    exclude_duplicates: # default is true
+    # An optional path to a CSS file that will be included as a <style> block in every output file
+    builtin_stylesheet: # default is 
+    # A JSON list of extensions to be passed to Python markdown
+    extensions: # default is ["extra"]
+    # A JSON object of extension configurations
+    extension_configs: # default is {}
+    # A space separated list of Python packages to be installed before execution (useful for installing third-party markdown extensions)
+    packages: # default is 
