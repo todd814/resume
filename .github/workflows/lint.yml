@@ -1,29 +1,21 @@
-name: Lint Code Base
+name: Lint
 
 on:
   push:
-    branches: [dev]
+    branches: [ dev ]
   pull_request:
-    branches: [master]
-
+    branches: [ main ]
 jobs:
-  build:
-    name: Lint Code Base
+  lint:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
       
-      - name: Lint Code Base
-        id: lint
+      - name: HTML Linting
         uses: github/super-linter@v3
         env:
-          VALIDATE_ALL_CODEBASE: true
+          VALIDATE_ALL_CODEBASE: false
           DISABLE_ERRORS: true
-          VALIDATE_HTML: true
-          VALIDATE_TERRAFORM: true
-          VALIDATE_TERRAFORM_TERRASCAN: true
-          VALIDATE_YAML: true
-          DEFAULT_BRANCH: master
+          DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

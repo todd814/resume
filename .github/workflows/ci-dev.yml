@@ -3,13 +3,12 @@ name: CI-dev
 on:
   push:
     branches: [ dev ]
-  pull_request:
 
   workflow_dispatch:
 
 env:
   DEFAULT_DOC: resume.html
-  IS_DEPLOY: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
+  IS_DEPLOY: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
 
 jobs:
   build:
