@@ -1,6 +1,6 @@
 name: 'Terraform Plan & Test'
 on:
-  pull:
+  pull_request:
     branches: [ main ]
     
 defaults:
