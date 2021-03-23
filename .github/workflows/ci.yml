@@ -1,8 +1,10 @@
 name: CI
 
 on:
-  pull_request:
+  push:
     branches: [ main ]
+  pull_request:
+
     
   workflow_dispatch:
 
@@ -10,7 +12,7 @@ env:
   DEFAULT_DOC: resume.html
   AWS_REGION: us-east-1
   S3_ENDPOINT: endpoint_goes_here
-  IS_DEPLOY: ${{ github.ref == 'refs/heads/main' && github.event_name == 'pull_request' }}
+  IS_DEPLOY: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
 
 jobs:
   build:
