@@ -1,7 +1,7 @@
 name: 'Terraform Plan & Test'
 on:
-  pull_request:
-    branches: [ main ]
+  push:
+    branches: [ dev ]
     
 defaults:
       run:
@@ -9,13 +9,11 @@ defaults:
 
 env:
   tf_actions_working_dir: ./terraform
-  
 
 jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-
 
     defaults:
       run:
