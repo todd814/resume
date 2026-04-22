@@ -1,14 +1,16 @@
-import azure.functions as func
-import json
 import os
 import logging
 
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
 from azure.ai.inference import ChatCompletionsClient
 from azure.ai.inference.models import SystemMessage, UserMessage
 
-app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 SYSTEM_PROMPT = """You are a helpful AI assistant for Todd DeBlieck's interactive resume. \
 Recruiters, hiring managers, and colleagues can ask you questions about Todd's background, \
@@ -24,45 +26,34 @@ SUGGESTED_QUESTIONS = [
     "Describe Todd's Cosmos Administrator experience.",
 ]
 
+app = FastAPI()
 
-@app.route(route="ask", methods=["POST", "OPTIONS"])
-def ask_resume(req: func.HttpRequest) -> func.HttpResponse:
-    cors_headers = {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-    }
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["POST", "OPTIONS", "GET"],
+    allow_headers=["Content-Type"],
+)
 
-    # Handle CORS preflight
-    if req.method == "OPTIONS":
-        return func.HttpResponse(status_code=200, headers=cors_headers)
 
-    # Parse request body
+@app.post("/api/ask")
+async def ask_resume(request: Request):
     try:
-        body = req.get_json()
+        body = await request.json()
         question = body.get("question", "").strip()
-    except ValueError:
-        return func.HttpResponse(
-            json.dumps({"error": "Invalid JSON body"}),
-            status_code=400,
-            mimetype="application/json",
-            headers=cors_headers,
-        )
+    except Exception:
+        return JSONResponse({"error": "Invalid JSON body"}, status_code=400)
 
     if not question:
-        return func.HttpResponse(
-            json.dumps({"error": "No question provided", "suggested": SUGGESTED_QUESTIONS}),
+        return JSONResponse(
+            {"error": "No question provided", "suggested": SUGGESTED_QUESTIONS},
             status_code=400,
-            mimetype="application/json",
-            headers=cors_headers,
         )
 
     if len(question) > 500:
-        return func.HttpResponse(
-            json.dumps({"error": "Question too long (max 500 characters)"}),
+        return JSONResponse(
+            {"error": "Question too long (max 500 characters)"},
             status_code=400,
-            mimetype="application/json",
-            headers=cors_headers,
         )
 
     try:
@@ -73,10 +64,7 @@ def ask_resume(req: func.HttpRequest) -> func.HttpResponse:
             credential=AzureKeyCredential(os.environ["AZURE_SEARCH_KEY"]),
         )
 
-        results = search_client.search(
-            search_text=question,
-            top=5,
-        )
+        results = search_client.search(search_text=question, top=5)
 
         context_chunks = []
         for doc in results:
@@ -86,11 +74,9 @@ def ask_resume(req: func.HttpRequest) -> func.HttpResponse:
                 context_chunks.append(f"[{section}]\n{content}")
 
         if not context_chunks:
-            return func.HttpResponse(
-                json.dumps({"answer": "I couldn't find relevant information in Todd's resume for that question. Try asking about his work experience, skills, certifications, or projects."}),
+            return JSONResponse(
+                {"answer": "I couldn't find relevant information in Todd's resume for that question. Try asking about his work experience, skills, certifications, or projects."},
                 status_code=200,
-                mimetype="application/json",
-                headers=cors_headers,
             )
 
         context = "\n\n---\n\n".join(context_chunks)
@@ -111,28 +97,16 @@ def ask_resume(req: func.HttpRequest) -> func.HttpResponse:
         )
 
         answer = response.choices[0].message.content
-        return func.HttpResponse(
-            json.dumps({"answer": answer}),
-            status_code=200,
-            mimetype="application/json",
-            headers=cors_headers,
-        )
+        return JSONResponse({"answer": answer}, status_code=200)
 
-    except Exception as e:
-        logging.exception("Error processing ask_resume request")
-        return func.HttpResponse(
-            json.dumps({"error": "An error occurred processing your request. Please try again."}),
+    except Exception:
+        logger.exception("Error processing ask_resume request")
+        return JSONResponse(
+            {"error": "An error occurred processing your request. Please try again."},
             status_code=500,
-            mimetype="application/json",
-            headers=cors_headers,
         )
 
 
-@app.route(route="health", methods=["GET"])
-def health_check(req: func.HttpRequest) -> func.HttpResponse:
-    """Simple health check endpoint."""
-    return func.HttpResponse(
-        json.dumps({"status": "healthy", "service": "ask-resume"}),
-        status_code=200,
-        mimetype="application/json",
-    )
+@app.get("/api/health")
+async def health_check():
+    return {"status": "healthy", "service": "ask-resume"}

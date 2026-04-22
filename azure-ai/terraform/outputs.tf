@@ -1,6 +1,6 @@
 output "function_app_url" {
-  description = "Base URL of the Azure Function App — set AZURE_FUNCTION_URL in chat-ui with this value"
-  value       = "https://${azurerm_linux_function_app.ask_resume.default_hostname}/api/ask"
+  description = "Base URL of the Container App API — update API_URL in resume.html and chat-ui with this value"
+  value       = "https://${azurerm_container_app.ask_resume.latest_revision_fqdn}/api/ask"
 }
 
 output "static_web_app_url" {

@@ -33,6 +33,18 @@ variable "search_sku" {
   default     = "free"
 }
 
+variable "ghcr_username" {
+  description = "GitHub username for GitHub Container Registry (ghcr.io)"
+  type        = string
+  default     = "todd814"
+}
+
+variable "ghcr_token" {
+  description = "GitHub PAT with read:packages scope — used by Container App to pull image from ghcr.io"
+  type        = string
+  sensitive   = true
+}
+
 variable "phi4_inference_endpoint" {
   description = "Phi-4-mini serverless endpoint URL from Azure AI Foundry"
   type        = string
