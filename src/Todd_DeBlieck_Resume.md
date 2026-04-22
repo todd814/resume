@@ -151,6 +151,15 @@ Served and performed various roles and duties as directed while in support of th
 
 ## Projects
 
+### Ask My Resume — Azure AI RAG Chatbot
+**2025 – Current** | [github.com/todd814/resume/azure-ai](https://github.com/todd814/resume/tree/main/azure-ai)
+
+Built a production RAG chatbot that lets visitors ask natural language questions about this resume. Deployed a FastAPI backend on Azure Container Apps (scale-to-zero) that retrieves grounded context from Azure AI Search (BM25 keyword index) and generates answers with Phi-4-mini-instruct via Azure AI Foundry serverless inference. Infrastructure fully managed with Terraform (Cloud backend) and deployed via GitHub Actions CI/CD.
+
+**Stack:** Azure AI Foundry · Phi-4-mini-instruct · Azure AI Search · Azure Container Apps · Static Web Apps · Terraform · Python · FastAPI · GitHub Actions
+
+---
+
 ### Self-Hosted Resume — AWS + Terraform + GitHub Actions
 **2020 – Current** | [github.com/todd814/resume](https://github.com/todd814/resume/)
 
