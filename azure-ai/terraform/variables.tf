@@ -1,7 +1,13 @@
 variable "location" {
-  description = "Azure region for all resources"
+  description = "Azure region for all resources (resource group, storage, search)"
   type        = string
   default     = "East US"
+}
+
+variable "app_location" {
+  description = "Azure region for Function App and Static Web App (must support Microsoft.Web)"
+  type        = string
+  default     = "East US 2"
 }
 
 variable "resource_group_name" {

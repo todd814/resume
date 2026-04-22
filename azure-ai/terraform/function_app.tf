@@ -19,7 +19,7 @@ resource "azurerm_storage_account" "functions" {
 resource "azurerm_service_plan" "functions" {
   name                = "${var.project_name}-asp"
   resource_group_name = azurerm_resource_group.resume_ai.name
-  location            = azurerm_resource_group.resume_ai.location
+  location            = var.app_location
   os_type             = "Linux"
   sku_name            = "Y1" # Consumption (serverless) plan — pay per execution
 }
@@ -27,7 +27,7 @@ resource "azurerm_service_plan" "functions" {
 resource "azurerm_linux_function_app" "ask_resume" {
   name                       = "${var.project_name}-func"
   resource_group_name        = azurerm_resource_group.resume_ai.name
-  location                   = azurerm_resource_group.resume_ai.location
+  location                   = var.app_location
   storage_account_name       = azurerm_storage_account.functions.name
   storage_account_access_key = azurerm_storage_account.functions.primary_access_key
   https_only                 = true
