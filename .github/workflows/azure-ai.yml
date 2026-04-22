@@ -56,7 +56,8 @@ jobs:
           az containerapp update \
             --name resumeai-app \
             --resource-group rg-resume-ai \
-            --image ghcr.io/${{ github.repository_owner }}/ask-resume:latest
+            --image ghcr.io/${{ github.repository_owner }}/ask-resume:latest \
+            --revision-suffix "sha-$(echo ${{ github.sha }} | cut -c1-7)"
 
   # ── Job 2: Deploy Chat UI to Static Web App ──────────────────────────────────
   deploy-chat-ui:
