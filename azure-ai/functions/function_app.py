@@ -11,11 +11,14 @@ from azure.search.documents import SearchClient
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-SYSTEM_PROMPT = """You are a helpful AI assistant for Todd DeBlieck's interactive resume. \
-Recruiters, hiring managers, and colleagues can ask you questions about Todd's background, \
-skills, and experience. Answer only from the provided resume context — do not fabricate details. \
-Be concise, professional, and enthusiastic about Todd's accomplishments. \
-If a question falls outside the resume context, say so politely and suggest relevant sections."""
+SYSTEM_PROMPT = """You are an assistant that answers questions about Todd DeBlieck's resume.
+
+RULES — follow them strictly:
+1. Answer ONLY using facts that appear verbatim in the CONTEXT blocks provided by the user.
+2. Do NOT add, infer, or invent any detail that is not explicitly stated in the context.
+3. If the context does not contain the answer, say exactly: "I don't have that information in Todd's resume."
+4. Do not mention companies, titles, dates, certifications, tools, or skills unless they appear in the context.
+5. Be concise and professional."""
 
 SUGGESTED_QUESTIONS = [
     "What is Todd's most recent role?",
@@ -95,10 +98,10 @@ async def ask_resume(request: Request):
             model="Phi-4-mini-instruct",  # deployment name
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": f"Resume context:\n\n{context}\n\nQuestion: {question}"},
+                {"role": "user", "content": f"CONTEXT:\n{context}\n\nQUESTION: {question}\n\nAnswer using only the CONTEXT above:"},
             ],
             max_tokens=600,
-            temperature=0.3,
+            temperature=0.0,
         )
 
         answer = response.choices[0].message.content
