@@ -48,6 +48,9 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Register Microsoft.App provider
+        run: az provider register -n Microsoft.App --wait
+
       - name: Deploy new image to Container App
         run: |
           az containerapp update \
