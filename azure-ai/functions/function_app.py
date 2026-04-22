@@ -5,7 +5,6 @@ import logging
 
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
-from azure.search.documents.models import QueryType
 from openai import AzureOpenAI
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
@@ -76,10 +75,6 @@ def ask_resume(req: func.HttpRequest) -> func.HttpResponse:
         results = search_client.search(
             search_text=question,
             top=5,
-            query_type=QueryType.SEMANTIC,
-            semantic_configuration_name="resume-semantic-config",
-            query_caption="extractive",
-            query_answer="extractive",
         )
 
         context_chunks = []

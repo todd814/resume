@@ -27,10 +27,6 @@ from azure.search.documents.indexes.models import (
     SearchFieldDataType,
     SimpleField,
     SearchableField,
-    SemanticConfiguration,
-    SemanticField,
-    SemanticPrioritizedFields,
-    SemanticSearch,
 )
 
 # ── Config ──────────────────────────────────────────────────────────────────
@@ -75,19 +71,9 @@ def build_index() -> SearchIndex:
         ),
     ]
 
-    semantic_config = SemanticConfiguration(
-        name="resume-semantic-config",
-        prioritized_fields=SemanticPrioritizedFields(
-            title_field=SemanticField(field_name="title"),
-            content_fields=[SemanticField(field_name="content")],
-            keywords_fields=[SemanticField(field_name="section")],
-        ),
-    )
-
     return SearchIndex(
         name=INDEX_NAME,
         fields=fields,
-        semantic_search=SemanticSearch(configurations=[semantic_config]),
     )
 
 

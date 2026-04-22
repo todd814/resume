@@ -34,7 +34,7 @@ variable "openai_capacity" {
 }
 
 variable "search_sku" {
-  description = "Azure AI Search SKU — 'basic' supports semantic search"
+  description = "Azure AI Search SKU"
   type        = string
-  default     = "basic"
+  default     = "free"
 }

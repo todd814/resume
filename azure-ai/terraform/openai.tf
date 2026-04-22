@@ -25,8 +25,8 @@ resource "azurerm_cognitive_deployment" "gpt4o" {
     version = var.openai_model_version
   }
 
-  scale {
-    type     = "Standard"
+  sku {
+    name     = "Standard"
     capacity = var.openai_capacity
   }
 }
