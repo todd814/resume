@@ -10,8 +10,9 @@ on:
 
 env:
   DEFAULT_DOC: resume.html
-  AWS_REGION: us-east-1
-  IS_DEPLOY: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -39,19 +40,15 @@ jobs:
           pdfOptions: '{"printBackground": true, "preferCSSPageSize": true, "format": "Tabloid", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
       
       - name: Minify
-        if: ${{ env.IS_DEPLOY == 'true' }}
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
         uses: Charlesworth/compress-action@1.0.0
         with:
           target-directory: ./src
       
-      - name: Configure AWS Credentials
-        if: ${{ env.IS_DEPLOY == 'true' }}
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Deploy to GitHub Pages
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Sync to S3
-        if: ${{ env.IS_DEPLOY == 'true' }}
-        run: aws s3 sync ./src s3://${{ secrets.AWS_S3_BUCKET }} --follow-symlinks --delete
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./src
+          cname: resume.devious.one
