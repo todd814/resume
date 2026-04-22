@@ -66,14 +66,30 @@ async def ask_resume(request: Request):
             credential=AzureKeyCredential(os.environ["AZURE_SEARCH_KEY"]),
         )
 
+        # Keyword search for relevant chunks
         results = search_client.search(search_text=question, top=5)
 
+        seen_ids = set()
         context_chunks = []
         for doc in results:
+            seen_ids.add(doc.get("id"))
             section = doc.get("section", "")
             content = doc.get("content", "")
             if content:
-                context_chunks.append(f"[{section}]\n{content}")
+                context_chunks.append(f"[{section}: {doc.get('title', '')}]\n{content}")
+
+        # Always include the most recent role (chunk_index=0 is first Work Experience entry)
+        # so "current role" / "most recent role" questions are grounded correctly
+        top_work = list(search_client.search(
+            search_text="*",
+            filter="section eq 'Work Experience'",
+            order_by=["chunk_index asc"],
+            top=2,
+        ))
+        for doc in top_work:
+            if doc.get("id") not in seen_ids and doc.get("content"):
+                context_chunks.insert(0, f"[Work Experience: {doc.get('title', '')}]\n{doc.get('content', '')}")
+                seen_ids.add(doc.get("id"))
 
         if not context_chunks:
             return JSONResponse(
