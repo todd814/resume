@@ -84,6 +84,7 @@ async def ask_resume(request: Request):
         inference_client = OpenAI(
             base_url=os.environ["AZURE_INFERENCE_ENDPOINT"],
             api_key=os.environ["AZURE_INFERENCE_KEY"],
+            default_query={"api-version": "2025-01-01-preview"},
         )
 
         response = inference_client.chat.completions.create(
