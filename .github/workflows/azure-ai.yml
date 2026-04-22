@@ -1,0 +1,97 @@
+name: Azure AI — Build & Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'azure-ai/**'
+      - 'src/Todd_DeBlieck_Resume.md'
+  workflow_dispatch:
+    inputs:
+      reindex:
+        description: 'Re-run resume indexer against Azure AI Search'
+        required: false
+        default: 'false'
+        type: boolean
+
+env:
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  # ── Job 1: Deploy Azure Function App ────────────────────────────────────────
+  deploy-function:
+    name: Deploy Function App
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install & test dependencies
+        working-directory: azure-ai/functions
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to Azure Functions
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ secrets.AZURE_FUNCTION_APP_NAME }}
+          package: azure-ai/functions
+          scm-do-build-during-deployment: true
+
+  # ── Job 2: Deploy Chat UI to Static Web App ──────────────────────────────────
+  deploy-chat-ui:
+    name: Deploy Chat UI
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: upload
+          app_location: azure-ai/chat-ui
+          skip_app_build: true
+
+  # ── Job 3: Re-index resume into Azure AI Search ──────────────────────────────
+  index-resume:
+    name: Index Resume Content
+    runs-on: ubuntu-latest
+    # Run on MD changes, or when manually triggered with reindex=true
+    if: |
+      contains(github.event.commits[*].modified, 'src/Todd_DeBlieck_Resume.md') ||
+      github.event_name == 'workflow_dispatch' && github.event.inputs.reindex == 'true'
+    needs: [deploy-function]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install indexer dependencies
+        working-directory: azure-ai/scripts
+        run: pip install -r requirements.txt
+
+      - name: Run resume indexer
+        working-directory: azure-ai/scripts
+        env:
+          AZURE_SEARCH_ENDPOINT: ${{ secrets.AZURE_SEARCH_ENDPOINT }}
+          AZURE_SEARCH_KEY:      ${{ secrets.AZURE_SEARCH_KEY }}
+          AZURE_SEARCH_INDEX_NAME: resume-content
+        run: python index_resume.py

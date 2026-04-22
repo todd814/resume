@@ -11,7 +11,6 @@ on:
 env:
   DEFAULT_DOC: resume.html
   AWS_REGION: us-east-1
-  S3_ENDPOINT: endpoint_goes_here
   IS_DEPLOY: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
 
 jobs:
@@ -19,20 +18,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       
       - name: Link Checking
         id: linkcheck
-        uses: peter-evans/link-checker@v1.2.2
+        uses: lycheeverse/lychee-action@v2
         with:
-          args: -v -r *
-          
+          args: --verbose --no-progress './**/*.html'
+          fail: false
+
       - name: Report Missing Links
         if: ${{ steps.linkcheck.outputs.exit_code != 0 }}
-        run: |
-          echo "::warning::Broken links have been detected"
-          #echo "::error::Broken links have been detected"
-          #exit ${{ steps.linkcheck.outputs.exit_code }}
+        run: echo "::warning::Broken links have been detected"
 
       - name: Generate PDF
         uses: fifsky/html-to-pdf-action@v0.0.2
@@ -47,17 +44,14 @@ jobs:
         with:
           target-directory: ./src
       
+      - name: Configure AWS Credentials
+        if: ${{ env.IS_DEPLOY == 'true' }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
       - name: Sync to S3
         if: ${{ env.IS_DEPLOY == 'true' }}
-        uses: kefranabg/s3-sync-action@v0.1.0
-        with:
-          args: --follow-symlinks
-          
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ env.AWS_REGION }}       # optional: defaults to us-east-1
-          AWS_S3_ENDPOINT: ${{ env.S3_ENDPOINT }} # optional: set the target endpoint
-          SOURCE_DIR: src                         # optional: defaults to entire repository
-          DEST_DIR: /                             # optional: sets target directory
+        run: aws s3 sync ./src s3://${{ secrets.AWS_S3_BUCKET }} --follow-symlinks --delete
