@@ -4,7 +4,7 @@ import logging
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from openai import OpenAI
+from openai import AzureOpenAI
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
 
@@ -81,14 +81,18 @@ async def ask_resume(request: Request):
         context = "\n\n---\n\n".join(context_chunks)
 
         # --- Step 2: Generate answer with Phi-4-mini via Azure AI Foundry serverless ---
-        inference_client = OpenAI(
-            base_url=os.environ["AZURE_INFERENCE_ENDPOINT"],
+        # Derive base endpoint — strip /api/projects/... if present
+        raw_endpoint = os.environ["AZURE_INFERENCE_ENDPOINT"]
+        base_endpoint = raw_endpoint.split("/api/projects/")[0] if "/api/projects/" in raw_endpoint else raw_endpoint
+
+        inference_client = AzureOpenAI(
+            azure_endpoint=base_endpoint,
             api_key=os.environ["AZURE_INFERENCE_KEY"],
-            default_query={"api-version": "2025-01-01-preview"},
+            api_version="2024-10-21",
         )
 
         response = inference_client.chat.completions.create(
-            model="Phi-4-mini-instruct",
+            model="Phi-4-mini-instruct",  # deployment name
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": f"Resume context:\n\n{context}\n\nQuestion: {question}"},
