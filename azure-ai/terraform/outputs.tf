@@ -25,11 +25,6 @@ output "search_admin_key" {
   sensitive   = true
 }
 
-output "openai_endpoint" {
-  description = "Azure OpenAI endpoint"
-  value       = azurerm_cognitive_account.openai.endpoint
-}
-
 output "resource_group_name" {
   description = "Resource group name — used to scope Azure CLI commands"
   value       = azurerm_resource_group.resume_ai.name

@@ -5,7 +5,8 @@ import logging
 
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
-from openai import AzureOpenAI
+from azure.ai.inference import ChatCompletionsClient
+from azure.ai.inference.models import SystemMessage, UserMessage
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
@@ -94,21 +95,16 @@ def ask_resume(req: func.HttpRequest) -> func.HttpResponse:
 
         context = "\n\n---\n\n".join(context_chunks)
 
-        # --- Step 2: Generate answer with Azure OpenAI ---
-        openai_client = AzureOpenAI(
-            azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
-            api_key=os.environ["AZURE_OPENAI_KEY"],
-            api_version=os.environ.get("AZURE_OPENAI_API_VERSION", "2024-10-21"),
+        # --- Step 2: Generate answer with Phi-4-mini via Azure AI Foundry serverless ---
+        inference_client = ChatCompletionsClient(
+            endpoint=os.environ["AZURE_INFERENCE_ENDPOINT"],
+            credential=AzureKeyCredential(os.environ["AZURE_INFERENCE_KEY"]),
         )
 
-        response = openai_client.chat.completions.create(
-            model=os.environ["AZURE_OPENAI_DEPLOYMENT_NAME"],
+        response = inference_client.complete(
             messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {
-                    "role": "user",
-                    "content": f"Resume context:\n\n{context}\n\nQuestion: {question}",
-                },
+                SystemMessage(content=SYSTEM_PROMPT),
+                UserMessage(content=f"Resume context:\n\n{context}\n\nQuestion: {question}"),
             ],
             max_tokens=600,
             temperature=0.3,

@@ -21,20 +21,20 @@ variable "project_name" {
   }
 }
 
-variable "openai_model_version" {
-  description = "Azure OpenAI GPT-4o model version"
-  type        = string
-  default     = "2024-11-20"
-}
-
-variable "openai_capacity" {
-  description = "Tokens-per-minute capacity (thousands) for the OpenAI deployment"
-  type        = number
-  default     = 10
-}
-
 variable "search_sku" {
   description = "Azure AI Search SKU"
   type        = string
   default     = "free"
+}
+
+variable "phi4_inference_endpoint" {
+  description = "Phi-4-mini serverless endpoint URL from Azure AI Foundry"
+  type        = string
+  sensitive   = true
+}
+
+variable "phi4_inference_key" {
+  description = "Phi-4-mini serverless endpoint API key from Azure AI Foundry"
+  type        = string
+  sensitive   = true
 }

@@ -6,9 +6,7 @@
     "AZURE_SEARCH_ENDPOINT": "https://<your-search-service>.search.windows.net",
     "AZURE_SEARCH_KEY": "<your-search-admin-key>",
     "AZURE_SEARCH_INDEX_NAME": "resume-content",
-    "AZURE_OPENAI_ENDPOINT": "https://<your-openai-account>.openai.azure.com/",
-    "AZURE_OPENAI_KEY": "<your-openai-key>",
-    "AZURE_OPENAI_DEPLOYMENT_NAME": "gpt-4o",
-    "AZURE_OPENAI_API_VERSION": "2024-10-21"
+    "AZURE_INFERENCE_ENDPOINT": "https://<your-phi4-endpoint>.inference.ai.azure.com",
+    "AZURE_INFERENCE_KEY": "<your-phi4-api-key>"
   }
 }

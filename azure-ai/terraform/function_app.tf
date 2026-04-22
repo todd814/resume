@@ -55,10 +55,10 @@ resource "azurerm_linux_function_app" "ask_resume" {
     AZURE_SEARCH_KEY             = azurerm_search_service.resume_search.primary_key
     AZURE_SEARCH_INDEX_NAME      = "resume-content"
 
-    AZURE_OPENAI_ENDPOINT        = azurerm_cognitive_account.openai.endpoint
-    AZURE_OPENAI_KEY             = azurerm_cognitive_account.openai.primary_access_key
-    AZURE_OPENAI_DEPLOYMENT_NAME = azurerm_cognitive_deployment.gpt4o.name
-    AZURE_OPENAI_API_VERSION     = "2024-10-21"
+    # Phi-4-mini serverless endpoint — set these after creating the endpoint in Azure AI Foundry portal
+    # https://ai.azure.com -> My assets -> Model catalog -> Phi-4-mini -> Deploy -> Serverless API
+    AZURE_INFERENCE_ENDPOINT     = var.phi4_inference_endpoint
+    AZURE_INFERENCE_KEY          = var.phi4_inference_key
 
     # TODO: Production improvement — move secrets to Azure Key Vault
     # and reference via @Microsoft.KeyVault(SecretUri=...) syntax
