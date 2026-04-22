@@ -4,10 +4,9 @@ import logging
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from openai import OpenAI
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
-from azure.ai.inference import ChatCompletionsClient
-from azure.ai.inference.models import SystemMessage, UserMessage
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -82,15 +81,16 @@ async def ask_resume(request: Request):
         context = "\n\n---\n\n".join(context_chunks)
 
         # --- Step 2: Generate answer with Phi-4-mini via Azure AI Foundry serverless ---
-        inference_client = ChatCompletionsClient(
-            endpoint=os.environ["AZURE_INFERENCE_ENDPOINT"],
-            credential=AzureKeyCredential(os.environ["AZURE_INFERENCE_KEY"]),
+        inference_client = OpenAI(
+            base_url=os.environ["AZURE_INFERENCE_ENDPOINT"],
+            api_key=os.environ["AZURE_INFERENCE_KEY"],
         )
 
-        response = inference_client.complete(
+        response = inference_client.chat.completions.create(
+            model="Phi-4-mini-instruct",
             messages=[
-                SystemMessage(content=SYSTEM_PROMPT),
-                UserMessage(content=f"Resume context:\n\n{context}\n\nQuestion: {question}"),
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": f"Resume context:\n\n{context}\n\nQuestion: {question}"},
             ],
             max_tokens=600,
             temperature=0.3,
