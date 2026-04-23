@@ -159,12 +159,13 @@ async def ask_resume(request: Request):
             ],
             max_tokens=350,
             temperature=0.0,
+            timeout=30.0,
         )
         answer = response.choices[0].message.content
         return JSONResponse({"answer": answer, "remaining": remaining}, status_code=200)
     except Exception:
         logger.exception("Inference error")
-        return JSONResponse({"error": "Inference failed. Please try again."}, status_code=500)
+        return JSONResponse({"error": "The AI took too long to respond. Please try again with a shorter or less open-ended question.", "remaining": remaining}, status_code=500)
 
 
 @app.get("/api/health")
