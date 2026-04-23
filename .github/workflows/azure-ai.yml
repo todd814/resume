@@ -58,6 +58,8 @@ jobs:
             --name resumeai-app \
             --resource-group rg-resume-ai \
             --image ghcr.io/${{ github.repository_owner }}/ask-resume:latest \
+            --min-replicas 1 \
+            --max-replicas 3 \
             --revision-suffix "sha-$(echo ${{ github.sha }} | cut -c1-7)"
 
   # ── Job 2: Deploy Chat UI to Static Web App ──────────────────────────────────
