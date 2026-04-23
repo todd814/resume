@@ -1,11 +1,10 @@
 import os
 import time
-import json
 import logging
 from collections import defaultdict
 
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from openai import AzureOpenAI
 from azure.core.credentials import AzureKeyCredential
@@ -150,34 +149,22 @@ async def ask_resume(request: Request):
 
     context = "\n\n---\n\n".join(context_chunks[:6])  # cap at 6 chunks
 
-    # --- Step 2: Stream answer from Phi-4-mini ---
-    messages = [
-        {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": f"CONTEXT:\n{context}\n\nQUESTION: {question}\n\nAnswer using only the CONTEXT above:"},
-    ]
-
-    def _stream_generator():
-        try:
-            stream = _inference_client.chat.completions.create(
-                model="Phi-4-mini-instruct",
-                messages=messages,
-                max_tokens=350,
-                temperature=0.0,
-                stream=True,
-            )
-            for chunk in stream:
-                if chunk.choices and chunk.choices[0].delta.content:
-                    yield f"data: {json.dumps({'chunk': chunk.choices[0].delta.content})}\n\n"
-            yield f"data: {json.dumps({'done': True, 'remaining': remaining})}\n\n"
-        except Exception:
-            logger.exception("Inference streaming error")
-            yield f"data: {json.dumps({'error': 'Inference failed. Please try again.'})}\n\n"
-
-    return StreamingResponse(
-        _stream_generator(),
-        media_type="text/event-stream",
-        headers={"X-Accel-Buffering": "no", "Cache-Control": "no-cache"},
-    )
+    # --- Step 2: Generate answer from Phi-4-mini ---
+    try:
+        response = _inference_client.chat.completions.create(
+            model="Phi-4-mini-instruct",
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": f"CONTEXT:\n{context}\n\nQUESTION: {question}\n\nAnswer using only the CONTEXT above:"},
+            ],
+            max_tokens=350,
+            temperature=0.0,
+        )
+        answer = response.choices[0].message.content
+        return JSONResponse({"answer": answer, "remaining": remaining}, status_code=200)
+    except Exception:
+        logger.exception("Inference error")
+        return JSONResponse({"error": "Inference failed. Please try again."}, status_code=500)
 
 
 @app.get("/api/health")

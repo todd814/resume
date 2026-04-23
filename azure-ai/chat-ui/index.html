@@ -490,43 +490,12 @@ I can answer questions about his experience, skills, certifications, and project
       return;
     }
 
-    // ── Stream the response token-by-token ───────────────────────────────────
+    const data = await res.json();
     removeTypingIndicator();
-    const bubble = appendStreamBubble();
-    const reader  = res.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = "";
-
-    try {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        // SSE lines are separated by double newlines
-        const parts = buffer.split("\n\n");
-        buffer = parts.pop();  // keep incomplete trailing chunk
-        for (const part of parts) {
-          if (!part.startsWith("data: ")) continue;
-          let data;
-          try { data = JSON.parse(part.slice(6)); } catch { continue; }
-          if (data.chunk) {
-            bubble.textContent += data.chunk;
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-          } else if (data.done) {
-            if (typeof data.remaining === "number") syncUsage(data.remaining);
-            else updateCounter(incrementUsage());
-          } else if (data.error) {
-            bubble.textContent = data.error;
-          }
-        }
-      }
-    } catch (err) {
-      if (!bubble.textContent) {
-        bubble.textContent = "Connection lost mid-response. Please try again.";
-      }
-    } finally {
-      setLoading(false);
-    }
+    appendMessage(data.answer, "ai");
+    if (typeof data.remaining === "number") syncUsage(data.remaining);
+    else updateCounter(incrementUsage());
+    setLoading(false);
   }
 
   // ── Event listeners ──────────────────────────────────────────────────────────
