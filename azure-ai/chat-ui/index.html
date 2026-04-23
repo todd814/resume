@@ -389,6 +389,21 @@ I can answer questions about his experience, skills, certifications, and project
     if (el) el.remove();
   }
 
+  function appendStreamBubble() {
+    const wrapper = document.createElement("div");
+    wrapper.className = "message ai";
+    const avatar = document.createElement("div");
+    avatar.className = "avatar";
+    avatar.textContent = "🤖";
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    wrapper.appendChild(avatar);
+    wrapper.appendChild(bubble);
+    chatWindow.appendChild(wrapper);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+    return bubble;
+  }
+
   function setLoading(loading) {
     sendBtn.disabled = loading;
     input.disabled   = loading;
@@ -426,40 +441,70 @@ I can answer questions about his experience, skills, certifications, and project
     setLoading(true);
     appendTypingIndicator();
 
+    let res;
     try {
-      const res = await fetch(FUNCTION_URL, {
+      res = await fetch(FUNCTION_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question }),
       });
-
-      removeTypingIndicator();
-
-      if (res.status === 429) {
-        updateCounter(DAILY_LIMIT);
-        appendMessage("You've reached the daily limit of 10 questions. Come back tomorrow!", "error");
-        return;
-      }
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        appendMessage(err.error || "Something went wrong. Please try again.", "error");
-        return;
-      }
-
-      const data = await res.json();
-      appendMessage(data.answer, "ai");
-
-      // Sync counter with authoritative server value
-      if (typeof data.remaining === "number") {
-        syncUsage(data.remaining);
-      } else {
-        updateCounter(incrementUsage());
-      }
-
     } catch (err) {
       removeTypingIndicator();
       appendMessage("Unable to reach the AI service. Please check your connection and try again.", "error");
+      setLoading(false);
+      return;
+    }
+
+    if (res.status === 429) {
+      removeTypingIndicator();
+      updateCounter(DAILY_LIMIT);
+      appendMessage("You've reached the daily limit of 10 questions. Come back tomorrow!", "error");
+      setLoading(false);
+      return;
+    }
+
+    if (!res.ok) {
+      removeTypingIndicator();
+      const err = await res.json().catch(() => ({}));
+      appendMessage(err.error || "Something went wrong. Please try again.", "error");
+      setLoading(false);
+      return;
+    }
+
+    // ── Stream the response token-by-token ───────────────────────────────────
+    removeTypingIndicator();
+    const bubble = appendStreamBubble();
+    const reader  = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        // SSE lines are separated by double newlines
+        const parts = buffer.split("\n\n");
+        buffer = parts.pop();  // keep incomplete trailing chunk
+        for (const part of parts) {
+          if (!part.startsWith("data: ")) continue;
+          let data;
+          try { data = JSON.parse(part.slice(6)); } catch { continue; }
+          if (data.chunk) {
+            bubble.textContent += data.chunk;
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+          } else if (data.done) {
+            if (typeof data.remaining === "number") syncUsage(data.remaining);
+            else updateCounter(incrementUsage());
+          } else if (data.error) {
+            bubble.textContent = data.error;
+          }
+        }
+      }
+    } catch (err) {
+      if (!bubble.textContent) {
+        bubble.textContent = "Connection lost mid-response. Please try again.";
+      }
     } finally {
       setLoading(false);
     }

@@ -1,10 +1,11 @@
 import os
 import time
+import json
 import logging
 from collections import defaultdict
 
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from openai import AzureOpenAI
 from azure.core.credentials import AzureKeyCredential
@@ -41,6 +42,22 @@ def _check_rate_limit(ip: str) -> tuple[bool, int]:
         return False, 0
     _rate_store[ip].append(now)
     return True, RATE_LIMIT - len(_rate_store[ip])
+
+# ── Module-level clients (initialised once on startup, reused across requests) ─
+_raw_endpoint = os.environ.get("AZURE_INFERENCE_ENDPOINT", "")
+_base_endpoint = _raw_endpoint.split("/api/projects/")[0] if "/api/projects/" in _raw_endpoint else _raw_endpoint
+
+_search_client = SearchClient(
+    endpoint=os.environ.get("AZURE_SEARCH_ENDPOINT", ""),
+    index_name=os.environ.get("AZURE_SEARCH_INDEX_NAME", ""),
+    credential=AzureKeyCredential(os.environ.get("AZURE_SEARCH_KEY", "")),
+)
+
+_inference_client = AzureOpenAI(
+    azure_endpoint=_base_endpoint,
+    api_key=os.environ.get("AZURE_INFERENCE_KEY", ""),
+    api_version="2024-10-21",
+)
 
 SYSTEM_PROMPT = """You are an assistant that answers questions about Todd DeBlieck's resume.
 
@@ -98,77 +115,69 @@ async def ask_resume(request: Request):
             status_code=400,
         )
 
+    # --- Step 1: Retrieve relevant resume chunks (single search call) ---
     try:
-        # --- Step 1: Retrieve relevant resume chunks from Azure AI Search ---
-        search_client = SearchClient(
-            endpoint=os.environ["AZURE_SEARCH_ENDPOINT"],
-            index_name=os.environ["AZURE_SEARCH_INDEX_NAME"],
-            credential=AzureKeyCredential(os.environ["AZURE_SEARCH_KEY"]),
-        )
-
-        # Keyword search for relevant chunks
-        results = search_client.search(search_text=question, top=5)
-
-        seen_ids = set()
-        context_chunks = []
-        for doc in results:
-            seen_ids.add(doc.get("id"))
-            section = doc.get("section", "")
-            content = doc.get("content", "")
-            if content:
-                context_chunks.append(f"[{section}: {doc.get('title', '')}]\n{content}")
-
-        # Always include the most recent role (chunk_index=0 is first Work Experience entry)
-        # so "current role" / "most recent role" questions are grounded correctly
-        top_work = list(search_client.search(
-            search_text="*",
-            filter="section eq 'Work Experience'",
-            order_by=["chunk_index asc"],
-            top=2,
-        ))
-        for doc in top_work:
-            if doc.get("id") not in seen_ids and doc.get("content"):
-                context_chunks.insert(0, f"[Work Experience: {doc.get('title', '')}]\n{doc.get('content', '')}")
-                seen_ids.add(doc.get("id"))
-
-        if not context_chunks:
-            return JSONResponse(
-                {"answer": "I couldn't find relevant information in Todd's resume for that question. Try asking about his work experience, skills, certifications, or projects."},
-                status_code=200,
-            )
-
-        context = "\n\n---\n\n".join(context_chunks)
-
-        # --- Step 2: Generate answer with Phi-4-mini via Azure AI Foundry serverless ---
-        # Derive base endpoint — strip /api/projects/... if present
-        raw_endpoint = os.environ["AZURE_INFERENCE_ENDPOINT"]
-        base_endpoint = raw_endpoint.split("/api/projects/")[0] if "/api/projects/" in raw_endpoint else raw_endpoint
-
-        inference_client = AzureOpenAI(
-            azure_endpoint=base_endpoint,
-            api_key=os.environ["AZURE_INFERENCE_KEY"],
-            api_version="2024-10-21",
-        )
-
-        response = inference_client.chat.completions.create(
-            model="Phi-4-mini-instruct",  # deployment name
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": f"CONTEXT:\n{context}\n\nQUESTION: {question}\n\nAnswer using only the CONTEXT above:"},
-            ],
-            max_tokens=600,
-            temperature=0.0,
-        )
-
-        answer = response.choices[0].message.content
-        return JSONResponse({"answer": answer, "remaining": remaining}, status_code=200)
-
+        results = list(_search_client.search(search_text=question, top=7))
     except Exception:
-        logger.exception("Error processing ask_resume request")
+        logger.exception("Azure Search error")
+        return JSONResponse({"error": "Search unavailable. Please try again."}, status_code=500)
+
+    # Ensure the most-recent Work Experience chunk is always present
+    context_chunks = []
+    seen_ids = set()
+    work_chunk = None
+    for doc in results:
+        doc_id = doc.get("id", "")
+        content = doc.get("content", "")
+        section = doc.get("section", "")
+        if not content:
+            continue
+        seen_ids.add(doc_id)
+        entry = f"[{section}: {doc.get('title', '')}]\n{content}"
+        if section == "Work Experience" and work_chunk is None:
+            work_chunk = entry          # first Work Experience hit becomes the anchor
+        else:
+            context_chunks.append(entry)
+
+    if work_chunk:
+        context_chunks.insert(0, work_chunk)  # always first in context
+
+    if not context_chunks:
         return JSONResponse(
-            {"error": "An error occurred processing your request. Please try again."},
-            status_code=500,
+            {"answer": "I couldn't find relevant information in Todd's resume for that question. Try asking about his work experience, skills, certifications, or projects.", "remaining": remaining},
+            status_code=200,
         )
+
+    context = "\n\n---\n\n".join(context_chunks[:6])  # cap at 6 chunks
+
+    # --- Step 2: Stream answer from Phi-4-mini ---
+    messages = [
+        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "user", "content": f"CONTEXT:\n{context}\n\nQUESTION: {question}\n\nAnswer using only the CONTEXT above:"},
+    ]
+
+    def _stream_generator():
+        try:
+            stream = _inference_client.chat.completions.create(
+                model="Phi-4-mini-instruct",
+                messages=messages,
+                max_tokens=350,
+                temperature=0.0,
+                stream=True,
+            )
+            for chunk in stream:
+                if chunk.choices and chunk.choices[0].delta.content:
+                    yield f"data: {json.dumps({'chunk': chunk.choices[0].delta.content})}\n\n"
+            yield f"data: {json.dumps({'done': True, 'remaining': remaining})}\n\n"
+        except Exception:
+            logger.exception("Inference streaming error")
+            yield f"data: {json.dumps({'error': 'Inference failed. Please try again.'})}\n\n"
+
+    return StreamingResponse(
+        _stream_generator(),
+        media_type="text/event-stream",
+        headers={"X-Accel-Buffering": "no", "Cache-Control": "no-cache"},
+    )
 
 
 @app.get("/api/health")
