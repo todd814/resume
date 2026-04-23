@@ -1,5 +1,7 @@
 import os
+import time
 import logging
+from collections import defaultdict
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
@@ -10,6 +12,35 @@ from azure.search.documents import SearchClient
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# ── Rate limiting ─────────────────────────────────────────────────────────────
+RATE_LIMIT  = 10       # max questions per IP
+RATE_WINDOW = 86400    # sliding window: 24 hours in seconds
+
+_rate_store: dict[str, list[float]] = defaultdict(list)
+
+
+def _get_client_ip(request: Request) -> str:
+    """Extract real client IP, preferring X-Forwarded-For from Azure/CDN."""
+    forwarded = request.headers.get("X-Forwarded-For")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
+
+
+def _check_rate_limit(ip: str) -> tuple[bool, int]:
+    """
+    Sliding window check. Returns (allowed, remaining).
+    Mutates _rate_store: appends timestamp if allowed, prunes stale entries.
+    """
+    now = time.time()
+    cutoff = now - RATE_WINDOW
+    # Prune requests outside the window
+    _rate_store[ip] = [t for t in _rate_store[ip] if t > cutoff]
+    if len(_rate_store[ip]) >= RATE_LIMIT:
+        return False, 0
+    _rate_store[ip].append(now)
+    return True, RATE_LIMIT - len(_rate_store[ip])
 
 SYSTEM_PROMPT = """You are an assistant that answers questions about Todd DeBlieck's resume.
 
@@ -40,6 +71,15 @@ app.add_middleware(
 
 @app.post("/api/ask")
 async def ask_resume(request: Request):
+    # ── Rate limit check ──────────────────────────────────────────────────────
+    ip = _get_client_ip(request)
+    allowed, remaining = _check_rate_limit(ip)
+    if not allowed:
+        return JSONResponse(
+            {"error": "Daily question limit reached. Come back tomorrow!", "limit": RATE_LIMIT, "remaining": 0},
+            status_code=429,
+        )
+
     try:
         body = await request.json()
         question = body.get("question", "").strip()
@@ -121,7 +161,7 @@ async def ask_resume(request: Request):
         )
 
         answer = response.choices[0].message.content
-        return JSONResponse({"answer": answer}, status_code=200)
+        return JSONResponse({"answer": answer, "remaining": remaining}, status_code=200)
 
     except Exception:
         logger.exception("Error processing ask_resume request")
