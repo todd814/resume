@@ -272,7 +272,7 @@
 <script>
   // ── Configuration ───────────────────────────────────────────────────────────
   const FUNCTION_URL  = "https://resumeai-app.lemontree-3428e352.eastus2.azurecontainerapps.io/api/ask";
-  const DAILY_LIMIT   = 10;
+  const DAILY_LIMIT   = 25;
   const STORAGE_KEY   = "resumeai_usage";
 
   const SUGGESTED_QUESTIONS = [
@@ -477,7 +477,7 @@ I can answer questions about his experience, skills, certifications, and project
     if (res.status === 429) {
       removeTypingIndicator();
       updateCounter(DAILY_LIMIT);
-      appendMessage("You've reached the daily limit of 10 questions. Come back tomorrow!", "error");
+      appendMessage("You've reached the daily limit of 25 questions. Come back tomorrow!", "error");
       setLoading(false);
       return;
     }

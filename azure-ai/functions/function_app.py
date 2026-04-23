@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # ── Rate limiting ─────────────────────────────────────────────────────────────
-RATE_LIMIT  = 10       # max questions per IP
+RATE_LIMIT  = 25      # max questions per IP
 RATE_WINDOW = 86400    # sliding window: 24 hours in seconds
 
 _rate_store: dict[str, list[float]] = defaultdict(list)
