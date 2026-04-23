@@ -2,6 +2,7 @@ import os
 import time
 import logging
 from collections import defaultdict
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
@@ -21,21 +22,40 @@ _rate_store: dict[str, list[float]] = defaultdict(list)
 
 
 def _get_client_ip(request: Request) -> str:
-    """Extract real client IP, preferring X-Forwarded-For from Azure/CDN."""
+    """Extract real client IP from X-Forwarded-For.
+
+    Uses the rightmost (last) value to prevent spoofing — Azure Container Apps
+    appends the verified client IP last in the chain.
+    """
     forwarded = request.headers.get("X-Forwarded-For")
     if forwarded:
-        return forwarded.split(",")[0].strip()
+        return forwarded.split(",")[-1].strip()
     return request.client.host if request.client else "unknown"
+
+
+_sweep_counter = 0
+_SWEEP_INTERVAL = 200  # evict stale IPs every N requests
 
 
 def _check_rate_limit(ip: str) -> tuple[bool, int]:
     """
     Sliding window check. Returns (allowed, remaining).
     Mutates _rate_store: appends timestamp if allowed, prunes stale entries.
+    Every _SWEEP_INTERVAL calls, evicts IPs with no recent activity to prevent
+    unbounded memory growth from unique visitor IPs accumulating over time.
     """
+    global _sweep_counter
     now = time.time()
     cutoff = now - RATE_WINDOW
-    # Prune requests outside the window
+
+    # Periodic full sweep to evict IPs whose entire window has expired
+    _sweep_counter += 1
+    if _sweep_counter % _SWEEP_INTERVAL == 0:
+        stale = [k for k, v in list(_rate_store.items()) if not any(t > cutoff for t in v)]
+        for k in stale:
+            del _rate_store[k]
+
+    # Prune requests outside the window for this IP
     _rate_store[ip] = [t for t in _rate_store[ip] if t > cutoff]
     if len(_rate_store[ip]) >= RATE_LIMIT:
         return False, 0
@@ -75,11 +95,35 @@ SUGGESTED_QUESTIONS = [
     "Describe Todd's Cosmos Administrator experience.",
 ]
 
-app = FastAPI()
+# ── CORS ─────────────────────────────────────────────────────────────────────
+# Comma-separated origins injected via ALLOWED_ORIGINS env var (set in Terraform).
+# Defaults to deny-all if the variable is absent or empty.
+_raw_origins = os.environ.get("ALLOWED_ORIGINS", "")
+_allowed_origins = [o.strip() for o in _raw_origins.split(",") if o.strip()]
+
+# ── Startup validation ────────────────────────────────────────────────────────
+_REQUIRED_VARS = [
+    "AZURE_INFERENCE_ENDPOINT",
+    "AZURE_INFERENCE_KEY",
+    "AZURE_SEARCH_ENDPOINT",
+    "AZURE_SEARCH_KEY",
+]
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    missing = [v for v in _REQUIRED_VARS if not os.environ.get(v)]
+    if missing:
+        logger.critical("Missing required environment variables: %s", ", ".join(missing))
+        raise RuntimeError(f"Missing required environment variables: {', '.join(missing)}")
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_allowed_origins,
     allow_methods=["POST", "OPTIONS", "GET"],
     allow_headers=["Content-Type"],
 )

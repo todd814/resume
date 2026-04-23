@@ -271,7 +271,9 @@
 
 <script>
   // ── Configuration ───────────────────────────────────────────────────────────
-  const FUNCTION_URL  = "https://resumeai-app.lemontree-3428e352.eastus2.azurecontainerapps.io/api/ask";
+  const BASE_URL      = "https://resumeai-app.lemontree-3428e352.eastus2.azurecontainerapps.io";
+  const FUNCTION_URL  = `${BASE_URL}/api/ask`;
+  const HEALTH_URL    = `${BASE_URL}/api/health`;
   const DAILY_LIMIT   = 25;
   const STORAGE_KEY   = "resumeai_usage";
 
@@ -327,7 +329,7 @@ I can answer questions about his experience, skills, certifications, and project
   function updateCounter(used) {
     const remaining = DAILY_LIMIT - used;
     if (remaining <= 0) {
-      rateCounter.textContent = "Daily limit reached (10/10). Come back tomorrow!";
+      rateCounter.textContent = `Daily limit reached (${DAILY_LIMIT}/${DAILY_LIMIT}). Come back tomorrow!`;
       rateCounter.className = "limit";
       setInputLocked(true);
     } else if (remaining <= 3) {
@@ -428,7 +430,7 @@ I can answer questions about his experience, skills, certifications, and project
   // so the container is warm by the time the user sends their first question.
   let _containerReady = false;
   function warmUp() {
-    fetch(FUNCTION_URL.replace('/api/ask', '/api/health'), { method: 'GET' })
+    fetch(HEALTH_URL, { method: 'GET' })
       .then(() => { _containerReady = true; })
       .catch(() => { /* silent — container will still accept requests */ });
   }

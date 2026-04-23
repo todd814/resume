@@ -91,6 +91,10 @@ resource "azurerm_container_app" "ask_resume" {
         name        = "AZURE_INFERENCE_KEY"
         secret_name = "inference-key"
       }
+      env {
+        name  = "ALLOWED_ORIGINS"
+        value = "https://${azurerm_static_web_app.chat_ui.default_host_name}"
+      }
     }
   }
 
