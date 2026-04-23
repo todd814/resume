@@ -423,6 +423,16 @@ I can answer questions about his experience, skills, certifications, and project
     });
   }
 
+  // ── Warm-up ping ─────────────────────────────────────────────────────────────
+  // Container App scales to zero. Fire a health check immediately on page load
+  // so the container is warm by the time the user sends their first question.
+  let _containerReady = false;
+  function warmUp() {
+    fetch(FUNCTION_URL.replace('/api/ask', '/api/health'), { method: 'GET' })
+      .then(() => { _containerReady = true; })
+      .catch(() => { /* silent — container will still accept requests */ });
+  }
+
   // ── Core send logic ──────────────────────────────────────────────────────────
   async function sendQuestion(question) {
     if (!question.trim()) return;
@@ -441,19 +451,28 @@ I can answer questions about his experience, skills, certifications, and project
     setLoading(true);
     appendTypingIndicator();
 
+    const controller = new AbortController();
+    const timeoutId  = setTimeout(() => controller.abort(), 45000); // 45s hard timeout
+
     let res;
     try {
       res = await fetch(FUNCTION_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question }),
+        signal: controller.signal,
       });
     } catch (err) {
+      clearTimeout(timeoutId);
       removeTypingIndicator();
-      appendMessage("Unable to reach the AI service. Please check your connection and try again.", "error");
+      const msg = err.name === "AbortError"
+        ? "The AI took too long to respond. The service may be warming up — please try again in a moment."
+        : "Unable to reach the AI service. Please check your connection and try again.";
+      appendMessage(msg, "error");
       setLoading(false);
       return;
     }
+    clearTimeout(timeoutId);
 
     if (res.status === 429) {
       removeTypingIndicator();
@@ -527,6 +546,7 @@ I can answer questions about his experience, skills, certifications, and project
   });
 
   // ── Init ─────────────────────────────────────────────────────────────────────
+  warmUp();
   const initialUsage = getUsage();
   updateCounter(initialUsage.count);
   appendMessage(WELCOME_MESSAGE, "ai");
