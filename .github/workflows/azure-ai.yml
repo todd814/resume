@@ -6,6 +6,7 @@ on:
     paths:
       - 'azure-ai/**'
       - 'src/Todd_DeBlieck_Resume.md'
+      - 'src/content/supplemental_qa.md'
   workflow_dispatch:
     inputs:
       reindex:

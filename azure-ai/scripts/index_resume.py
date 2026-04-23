@@ -35,7 +35,8 @@ SEARCH_ENDPOINT = os.environ["AZURE_SEARCH_ENDPOINT"]
 SEARCH_KEY      = os.environ["AZURE_SEARCH_KEY"]
 INDEX_NAME      = os.environ.get("AZURE_SEARCH_INDEX_NAME", "resume-content")
 
-RESUME_MD_PATH  = Path(__file__).parent.parent.parent / "src" / "Todd_DeBlieck_Resume.md"
+RESUME_MD_PATH       = Path(__file__).parent.parent.parent / "src" / "Todd_DeBlieck_Resume.md"
+SUPPLEMENTAL_QA_PATH = Path(__file__).parent.parent.parent / "src" / "content" / "supplemental_qa.md"
 
 # ── Index Definition ─────────────────────────────────────────────────────────
 
@@ -78,6 +79,50 @@ def build_index() -> SearchIndex:
 
 
 # ── Resume Parsing ────────────────────────────────────────────────────────────
+
+def parse_supplemental_qa(md_path: Path) -> list[dict]:
+    """
+    Parse supplemental_qa.md Q&A pairs into individual indexed chunks.
+    Each Q+A pair becomes one document with section metadata.
+    """
+    text = md_path.read_text(encoding="utf-8")
+    documents = []
+    chunk_index = 10000  # offset to avoid ID collisions with resume chunks
+
+    current_section = "Supplemental Q&A"
+    section_pattern = re.compile(r"^## (.+)$", re.MULTILINE)
+    qa_pattern = re.compile(
+        r"\*\*Q: (.+?)\*\*\s*\nA: (.+?)(?=\n\n\*\*Q:|\Z)",
+        re.DOTALL,
+    )
+
+    # Track section headings for metadata
+    section_positions = [(m.start(), m.group(1).strip()) for m in section_pattern.finditer(text)]
+
+    for match in qa_pattern.finditer(text):
+        question = match.group(1).strip()
+        answer = match.group(2).strip()
+        if not answer:
+            continue
+
+        # Find which section this Q&A falls under
+        pos = match.start()
+        section = "Supplemental Q&A"
+        for sec_pos, sec_name in section_positions:
+            if sec_pos <= pos:
+                section = sec_name
+
+        documents.append({
+            "id": f"qa-{chunk_index}",
+            "title": question,
+            "section": f"Supplemental Q&A — {section}",
+            "content": f"Q: {question}\nA: {answer}",
+            "chunk_index": chunk_index,
+        })
+        chunk_index += 1
+
+    return documents
+
 
 def parse_resume(md_path: Path) -> list[dict]:
     """
@@ -176,7 +221,16 @@ def main():
     # Parse and chunk resume
     print(f"Parsing {RESUME_MD_PATH.name} ...")
     documents = parse_resume(RESUME_MD_PATH)
-    print(f"  {len(documents)} chunks created.")
+    print(f"  {len(documents)} resume chunks created.")
+
+    # Parse supplemental Q&A
+    if SUPPLEMENTAL_QA_PATH.exists():
+        print(f"Parsing {SUPPLEMENTAL_QA_PATH.name} ...")
+        qa_docs = parse_supplemental_qa(SUPPLEMENTAL_QA_PATH)
+        print(f"  {len(qa_docs)} Q&A chunks created.")
+        documents.extend(qa_docs)
+    else:
+        print(f"No supplemental Q&A found at {SUPPLEMENTAL_QA_PATH}, skipping.")
 
     # Upload documents
     print("Uploading documents to Azure AI Search ...")
