@@ -93,7 +93,7 @@ resource "azurerm_container_app" "ask_resume" {
       }
       env {
         name  = "ALLOWED_ORIGINS"
-        value = "https://${azurerm_static_web_app.chat_ui.default_host_name}"
+        value = "https://${azurerm_static_web_app.chat_ui.default_host_name},https://resume.devious.one"
       }
     }
   }

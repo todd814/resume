@@ -89,7 +89,7 @@ RULES — follow them strictly:
 
 SUGGESTED_QUESTIONS = [
     "What is Todd's most recent role?",
-    "What AWS services has Todd worked with?",
+    "What Azure services has Todd worked with?",
     "Tell me about Todd's Epic certifications.",
     "What AI tools does Todd use?",
     "Describe Todd's Cosmos Administrator experience.",
