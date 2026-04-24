@@ -8,9 +8,6 @@ on:
     
   workflow_dispatch:
 
-env:
-  DEFAULT_DOC: resume.html
-
 permissions:
   contents: write
 
@@ -32,10 +29,16 @@ jobs:
         if: ${{ steps.linkcheck.outputs.exit_code != 0 }}
         run: echo "::warning::Broken links have been detected"
 
+      - name: Install Pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc
+
+      - name: Convert Markdown to HTML (for PDF)
+        run: pandoc ./src/Todd_DeBlieck_Resume.md -f gfm -t html -o ./src/Todd_DeBlieck_Resume.print.html
+
       - name: Generate PDF
         uses: fifsky/html-to-pdf-action@v0.0.2
         with:
-          htmlFile: ./src/${{ env.DEFAULT_DOC }}
+          htmlFile: ./src/Todd_DeBlieck_Resume.print.html
           outputFile: ./src/Todd_DeBlieck_Resume.pdf
           pdfOptions: '{"printBackground": true, "preferCSSPageSize": true, "format": "Tabloid", "margin": {"top": "10mm", "left": "10mm", "right": "10mm", "bottom": "10mm"}}'
       

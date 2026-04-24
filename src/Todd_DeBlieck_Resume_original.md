@@ -12,18 +12,14 @@
 
 ## Summary
 
-Healthcare IT leader and AI transformation practitioner with 15+ years of progressive experience driving clinical and operational outcomes through technology strategy, application governance, and scalable cloud infrastructure. Combines deep Epic EHR and Azure platform expertise with demonstrated hands-on AI delivery — including a production generative AI application built on Azure AI Foundry, Azure AI Search, and Azure Container Apps.
-
-Holds the **Microsoft Certified: AI Business Professional** credential and an **Applied Skill in building generative AI chat applications**; completed seven Microsoft AI leadership learning paths covering AI strategy for healthcare, responsible AI governance, scaling AI in organizations, and driving measurable business value with generative AI solutions. Brings a proven ability to frame AI strategy, assess organizational readiness, and build the executive case for AI adoption at scale.
-
-Recognized for translating complex technical capabilities into actionable operational improvements, mentoring team analyst, and bridging clinical and technology stakeholders. Positioned to lead AI transformation initiatives that deliver durable, measurable outcomes for healthcare organizations.
+Seasoned healthcare IT professional and AI transformation leader with 15+ years of experience bridging clinical operations and technology. I design and deliver intelligent solutions that elevate workflows, improve patient outcomes, and enable data-driven decision-making at scale. With hands-on expertise in Azure cloud infrastructure, Epic EHR, automation, and Infrastructure as Code — paired with a strong command of AI tools and large language models — I help organizations move from reactive IT support to proactive, AI-augmented operations. Proven ability to lead cross-functional initiatives, translate complex technical concepts for executive audiences, and drive measurable improvements in efficiency and quality.
 
 ---
 
 ## Technical Skills
 
 **AI Tools & Platforms**
-ChatGPT, GitHub Copilot, Claude (Anthropic), Microsoft 365 Copilot; prompt engineering, AI workflow integration, and leveraging LLMs to accelerate analysis, documentation, and process improvement. Trained in responsible AI principles, AI governance, and scaling AI adoption across organizations.
+ChatGPT, GitHub Copilot, Claude (Anthropic), prompt engineering, AI workflow integration, and leveraging LLMs to accelerate analysis, documentation, and process improvement.
 
 **Local AI & Retrieval-Augmented Generation (RAG)**
 Hands-on experience deploying and exploring self-hosted AI stacks including LM Studio for running local LLMs and Open WebUI as a browser-based chat interface. Explored RAG architectures to ground model responses in domain-specific knowledge bases — evaluating use cases for healthcare data workflows, internal documentation search, and AI-assisted decision support.
@@ -189,18 +185,9 @@ Designed and deployed this resume as a production-grade cloud application. Provi
 ## Certifications / Badges
 
 - [Microsoft Certified: AI Business Professional](https://learn.microsoft.com/api/credentials/share/en-us/todd814/8A24F4E73ACC4C86?sharingId=7A5F48460A651ED7)
-- [Microsoft Applied Skill: Build a Generative AI Chat App](https://learn.microsoft.com/en-us/users/todd814/) *(completed Apr 2026)*
+- [Microsoft Learn](https://learn.microsoft.com/en-us/users/todd814/) *(AI transformation & generative AI learning path completions)*
 - [AWS Certified Solutions Architect - Associate](https://aws.amazon.com/verification) *(Verification ID: 046X65S2KNB4QRWE)*
 - [Credly Badges](https://www.credly.com/users/todd-deblieck)
-
-**Microsoft Learn — AI Leadership & Strategy Paths** *(all completed Apr 2026 · [View profile](https://learn.microsoft.com/en-us/users/todd814/))*
-- Transform your business with AI
-- Discover AI for leaders in healthcare
-- Discover AI for leaders in sustainability
-- Drive business value with AI solutions
-- Explore the business value of generative AI solutions
-- Transform business workflows with generative AI
-- Scale AI in your organization *(includes: Responsible AI principles & practices)*
 
 ---
 
