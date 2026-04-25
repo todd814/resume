@@ -227,7 +227,7 @@ async def ask_resume(request: Request):
     # --- Step 2: Generate answer from gpt-5-nano ---
     try:
         response = _inference_client.chat.completions.create(
-            model="gpt-5-nano",
+            model="gpt-5-nano-1",
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": f"CONTEXT:\n{context}\n\nQUESTION: {question}\n\nAnswer using only the CONTEXT above:"},
