@@ -75,6 +75,8 @@ Linux server administration, Docker, Traefik, Jenkins, OpenVPN, home automation,
 
 ---
 
+<div style="break-before: page; page-break-before: always;"></div>
+
 ### Sr. Application Coordinator Clinical Content — Nordic Global *(formerly Bon Secours Mercy Health I&T)*
 **August 2016 – Current**
 
@@ -237,9 +239,3 @@ Applying the seven Facilitative Leadership Practices framework to inspire commit
 | National Defense Service Medal (2002) | Combat Action Ribbon (2005) |
 
 ---
-
-## Volunteering
-
-- Chesterfield Little League: Coach (2014–2018), Information Director (2018–2019)
-- Magnolia Green Neighbourhood: Social Events (2014–2020)
-- Scouts of America (2019–Current)
