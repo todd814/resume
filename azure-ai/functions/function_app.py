@@ -1,4 +1,5 @@
 import os
+import re
 import time
 import logging
 from collections import defaultdict
@@ -78,14 +79,15 @@ _inference_client = AzureOpenAI(
     api_version="2024-10-21",
 )
 
-SYSTEM_PROMPT = """You are an assistant that answers questions about Todd DeBlieck's resume.
+SYSTEM_PROMPT = """You are a talent advisor briefing a hiring manager on Todd DeBlieck, a candidate for senior healthcare IT and AI transformation leadership roles.
 
-RULES — follow them strictly:
-1. Answer ONLY using facts that appear verbatim in the CONTEXT blocks provided by the user.
-2. Do NOT add, infer, or invent any detail that is not explicitly stated in the context.
-3. If the context does not contain the answer, say exactly: "I don't have that information in Todd's resume."
-4. Do not mention companies, titles, dates, certifications, tools, or skills unless they appear in the context.
-5. Be concise and professional."""
+RULES — follow strictly:
+1. Answer ONLY using facts that appear in the CONTEXT blocks provided. Do NOT invent, infer, or add any detail not stated there.
+2. If the context does not contain the answer, say exactly: "I don't have that information in Todd's resume."
+3. Lead with leadership impact and outcomes — not a list of duties.
+4. Be concise, confident, and direct — like a recruiter champion who knows this candidate well.
+5. For broad questions (who is, tell me about, overview, background), synthesize a tight 3-4 sentence executive summary: current role → core expertise → key differentiator.
+6. For specific questions, answer precisely in 1-3 sentences."""
 
 SUGGESTED_QUESTIONS = [
     "What is Todd's most recent role?",
@@ -94,6 +96,31 @@ SUGGESTED_QUESTIONS = [
     "What AI tools does Todd use?",
     "Describe Todd's Cosmos Administrator experience.",
 ]
+
+# ── Section priority for context ordering ────────────────────────────────────
+# Lower number = higher priority in the context window sent to the model.
+_SECTION_PRIORITY: dict[str, int] = {
+    "Summary":            0,
+    "Work Experience":    1,
+    "Skills":             2,
+    "Certifications":     3,
+    "Projects":           4,
+    "Education":          5,
+    "Professional Development": 6,
+    "Personal Accolades": 99,  # suppress from top — rarely recruiter-relevant
+}
+
+# Broad / overview question patterns — trigger a supplemental summary search
+_BROAD_Q = re.compile(
+    r"\b(tell me about|who is|describe|overview|background|introduce|summarize|summary|"
+    r"about this person|about todd|what does .* do|what kind of)\b",
+    re.IGNORECASE,
+)
+
+
+def _is_broad(question: str) -> bool:
+    return bool(_BROAD_Q.search(question))
+
 
 # ── CORS ─────────────────────────────────────────────────────────────────────
 # Comma-separated origins injected via ALLOWED_ORIGINS env var (set in Terraform).
@@ -158,32 +185,37 @@ async def ask_resume(request: Request):
             status_code=400,
         )
 
-    # --- Step 1: Retrieve relevant resume chunks (single search call) ---
+    # --- Step 1: Retrieve relevant resume chunks ---
     try:
-        results = list(_search_client.search(search_text=question, top=7))
+        raw_results = list(_search_client.search(search_text=question, top=7))
+        # Broad questions get a supplemental pass anchored to summary/skills/experience
+        if _is_broad(question):
+            anchor_results = list(_search_client.search(
+                search_text="Todd DeBlieck professional summary leadership background skills expertise",
+                top=4,
+            ))
+            raw_results = raw_results + anchor_results
     except Exception:
         logger.exception("Azure Search error")
         return JSONResponse({"error": "Search unavailable. Please try again."}, status_code=500)
 
-    # Ensure the most-recent Work Experience chunk is always present
-    context_chunks = []
-    seen_ids = set()
-    work_chunk = None
-    for doc in results:
+    # Deduplicate, build entries, sort by section priority
+    seen_ids: set[str] = set()
+    entries: list[tuple[int, str]] = []  # (priority, text)
+    for doc in raw_results:
         doc_id = doc.get("id", "")
+        if not doc_id or doc_id in seen_ids:
+            continue
         content = doc.get("content", "")
-        section = doc.get("section", "")
         if not content:
             continue
         seen_ids.add(doc_id)
-        entry = f"[{section}: {doc.get('title', '')}]\n{content}"
-        if section == "Work Experience" and work_chunk is None:
-            work_chunk = entry          # first Work Experience hit becomes the anchor
-        else:
-            context_chunks.append(entry)
+        section = doc.get("section", "")
+        priority = _SECTION_PRIORITY.get(section, 50)
+        entries.append((priority, f"[{section}: {doc.get('title', '')}]\n{content}"))
 
-    if work_chunk:
-        context_chunks.insert(0, work_chunk)  # always first in context
+    entries.sort(key=lambda x: x[0])
+    context_chunks = [text for _, text in entries]
 
     if not context_chunks:
         return JSONResponse(
@@ -191,7 +223,7 @@ async def ask_resume(request: Request):
             status_code=200,
         )
 
-    context = "\n\n---\n\n".join(context_chunks[:6])  # cap at 6 chunks
+    context = "\n\n---\n\n".join(context_chunks[:7])  # cap at 7 chunks
 
     # --- Step 2: Generate answer from Phi-4-mini ---
     try:
@@ -201,7 +233,7 @@ async def ask_resume(request: Request):
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": f"CONTEXT:\n{context}\n\nQUESTION: {question}\n\nAnswer using only the CONTEXT above:"},
             ],
-            max_tokens=350,
+            max_tokens=420,
             temperature=0.0,
             timeout=30.0,
         )
