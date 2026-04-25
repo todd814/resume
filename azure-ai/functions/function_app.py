@@ -227,13 +227,14 @@ async def ask_resume(request: Request):
     # --- Step 2: Generate answer from gpt-5-nano ---
     try:
         response = _inference_client.chat.completions.create(
-            model="gpt-5-nano-1",
+            model="gpt-4.1-nano-1",
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": f"CONTEXT:\n{context}\n\nQUESTION: {question}\n\nAnswer using only the CONTEXT above:"},
             ],
-            max_completion_tokens=2000,
-            timeout=45.0,
+            max_tokens=600,
+            temperature=0.3,
+            timeout=30.0,
         )
         answer = response.choices[0].message.content
         return JSONResponse({"answer": answer, "remaining": remaining}, status_code=200)
