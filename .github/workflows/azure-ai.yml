@@ -84,11 +84,9 @@ jobs:
   index-resume:
     name: Index Resume Content
     runs-on: ubuntu-latest
-    # Run on MD changes, or when manually triggered with reindex=true
-    if: |
-      contains(github.event.commits[*].modified, 'src/Todd_DeBlieck_Resume.md') ||
-      contains(github.event.commits[*].modified, 'src/content/supplemental_qa.md') ||
-      github.event_name == 'workflow_dispatch' && github.event.inputs.reindex == 'true'
+    # The workflow's on.push.paths already gates to MD/azure-ai changes only.
+    # Always re-index on any push that reaches this workflow so the index never
+    # goes stale. Also runs on manual workflow_dispatch.
     needs: [deploy-container]
 
     steps:
