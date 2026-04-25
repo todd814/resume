@@ -232,8 +232,8 @@ async def ask_resume(request: Request):
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": f"CONTEXT:\n{context}\n\nQUESTION: {question}\n\nAnswer using only the CONTEXT above:"},
             ],
-            max_completion_tokens=420,
-            timeout=30.0,
+            max_completion_tokens=2000,
+            timeout=45.0,
         )
         answer = response.choices[0].message.content
         return JSONResponse({"answer": answer, "remaining": remaining}, status_code=200)
