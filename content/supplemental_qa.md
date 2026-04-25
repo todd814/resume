@@ -53,10 +53,10 @@ A: I envisioned and directed a initiative to develop a Tableau dashboard contain
 A: My EHR experience is exclusively within the Epic ecosystem. I have not worked with Cerner, Meditech, Allscripts, or other platforms.
 
 **Q: Has Todd integrated AI with Epic or EHR data?**
-A: Not yet in a production setting. I have deep expertise in both domains independently — Epic EHR (Cosmos administration, clinical workflow design, data governance) and Azure AI (Azure AI Foundry, Azure AI Search, Azure Container Apps) — but have not yet built a system that directly integrates the two. That intersection is precisely the opportunity I am targeting in my next role: applying AI to clinical data and EHR workflows in a meaningful, production-grade way.
+A: Not yet in a production setting. Todd has deep expertise in both domains independently — Epic EHR (Cosmos administration, clinical workflow design, data governance) and Azure AI (Azure AI Foundry, Azure AI Search, Azure Container Apps) — but has not yet built a system that directly integrates the two. That intersection is precisely the opportunity he is targeting in his next role: applying AI to clinical data and EHR workflows in a meaningful, production-grade way.
 
 **Q: How has Todd combined AI and EHR data?**
-A: I have not yet combined them in a production project. My Azure AI expertise (RAG chatbot on Azure AI Foundry and Azure AI Search) and my Epic EHR expertise (Cosmos data administration, clinical workflow improvement, data governance) have developed on parallel tracks. The ability to bridge those two domains — applying generative AI to clinical data and EHR-sourced workflows — is the core opportunity I am pursuing in my next role.
+A: Todd has not yet combined AI and EHR data in a production project. His Azure AI expertise (RAG chatbot on Azure AI Foundry and Azure AI Search) and Epic EHR expertise (Cosmos data administration, clinical workflow improvement, data governance) have developed on parallel tracks. Bridging those two domains — applying generative AI to clinical data and EHR-sourced workflows — is the core opportunity he is targeting in his next role.
 
 **Q: What cloud platforms have you used hands-on vs. managed/overseen?**
 A: I have hands-on experience with AWS, where I built and managed personal cloud infrastructure using S3, CloudFront, Route 53, and IAM. I am actively building Azure skills through projects using Container Apps, Azure AI Foundry, and AI Search. I have done exploratory work in Google Cloud.
