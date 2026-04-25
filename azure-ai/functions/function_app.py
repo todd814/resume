@@ -233,7 +233,6 @@ async def ask_resume(request: Request):
                 {"role": "user", "content": f"CONTEXT:\n{context}\n\nQUESTION: {question}\n\nAnswer using only the CONTEXT above:"},
             ],
             max_completion_tokens=420,
-            temperature=0.0,
             timeout=30.0,
         )
         answer = response.choices[0].message.content
