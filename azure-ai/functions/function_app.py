@@ -64,8 +64,7 @@ def _check_rate_limit(ip: str) -> tuple[bool, int]:
     return True, RATE_LIMIT - len(_rate_store[ip])
 
 # ── Module-level clients (initialised once on startup, reused across requests) ─
-_raw_endpoint = os.environ.get("AZURE_INFERENCE_ENDPOINT", "")
-_base_endpoint = _raw_endpoint.split("/api/projects/")[0] if "/api/projects/" in _raw_endpoint else _raw_endpoint
+_base_endpoint = os.environ.get("AZURE_INFERENCE_ENDPOINT", "")
 
 _search_client = SearchClient(
     endpoint=os.environ.get("AZURE_SEARCH_ENDPOINT", ""),
@@ -76,7 +75,7 @@ _search_client = SearchClient(
 _inference_client = AzureOpenAI(
     azure_endpoint=_base_endpoint,
     api_key=os.environ.get("AZURE_INFERENCE_KEY", ""),
-    api_version="2024-10-21",
+    api_version="2025-01-01-preview",
 )
 
 SYSTEM_PROMPT = """You are a talent advisor briefing a hiring manager on Todd DeBlieck, a candidate for senior healthcare IT and AI transformation leadership roles.
@@ -225,10 +224,10 @@ async def ask_resume(request: Request):
 
     context = "\n\n---\n\n".join(context_chunks[:7])  # cap at 7 chunks
 
-    # --- Step 2: Generate answer from Phi-4-mini ---
+    # --- Step 2: Generate answer from gpt-5-nano ---
     try:
         response = _inference_client.chat.completions.create(
-            model="Phi-4-mini-instruct",
+            model="gpt-5-nano",
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": f"CONTEXT:\n{context}\n\nQUESTION: {question}\n\nAnswer using only the CONTEXT above:"},

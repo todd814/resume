@@ -53,12 +53,12 @@ resource "azurerm_container_app" "ask_resume" {
 
   secret {
     name  = "inference-endpoint"
-    value = var.phi4_inference_endpoint
+    value = var.inference_endpoint
   }
 
   secret {
     name  = "inference-key"
-    value = var.phi4_inference_key
+    value = var.inference_key
   }
 
   template {

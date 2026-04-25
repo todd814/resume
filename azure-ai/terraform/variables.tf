@@ -45,14 +45,14 @@ variable "ghcr_token" {
   sensitive   = true
 }
 
-variable "phi4_inference_endpoint" {
-  description = "Phi-4-mini serverless endpoint URL from Azure AI Foundry"
+variable "inference_endpoint" {
+  description = "Azure OpenAI endpoint URL from the Foundry portal (Keys and Endpoint blade) — e.g. https://<resource>.openai.azure.com/"
   type        = string
   sensitive   = true
 }
 
-variable "phi4_inference_key" {
-  description = "Phi-4-mini serverless endpoint API key from Azure AI Foundry"
+variable "inference_key" {
+  description = "Azure OpenAI API key from the Foundry portal (Keys and Endpoint blade)"
   type        = string
   sensitive   = true
 }

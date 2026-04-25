@@ -35,26 +35,22 @@ AZURE_SEARCH_ENDPOINT="https://${SEARCH_SERVICE}.search.windows.net"
 AZURE_SEARCH_KEY=$(echo "$TF_OUT" | python3 -c \
   "import json,sys; print(json.load(sys.stdin)['search_admin_key']['value'])")
 
-RESOURCE_GROUP=$(echo "$TF_OUT" | python3 -c \
-  "import json,sys; print(json.load(sys.stdin)['resource_group_name']['value'])")
+# Inference creds are Foundry-managed variables — not in Terraform outputs.
+# Read from Terraform Cloud workspace variables via the API, or set manually.
+if ! AZURE_INFERENCE_ENDPOINT=$(cd "$TF_DIR" && terraform output -raw inference_endpoint 2>/dev/null); then
+  echo "WARNING: inference_endpoint not available as a Terraform output."
+  echo "Set AZURE_INFERENCE_ENDPOINT manually in $ENV_FILE after this script runs."
+  AZURE_INFERENCE_ENDPOINT="https://todd-resume-3112-resource.openai.azure.com/"
+fi
 
-# ── Pull Container App secrets from Azure ─────────────────────────────────────
-echo "Fetching inference secrets from Azure Container App..."
-APP_NAME="resumeai-app"
+if ! AZURE_INFERENCE_KEY=$(cd "$TF_DIR" && terraform output -raw inference_key 2>/dev/null); then
+  echo "WARNING: inference_key not available as a Terraform output."
+  echo "Set AZURE_INFERENCE_KEY manually in $ENV_FILE after this script runs."
+  AZURE_INFERENCE_KEY="<set-manually>"
+fi
 
-AZURE_INFERENCE_ENDPOINT=$(az containerapp secret show \
-  --name "$APP_NAME" \
-  --resource-group "$RESOURCE_GROUP" \
-  --secret-name inference-endpoint \
-  --query value \
-  --output tsv)
-
-AZURE_INFERENCE_KEY=$(az containerapp secret show \
-  --name "$APP_NAME" \
-  --resource-group "$RESOURCE_GROUP" \
-  --secret-name inference-key \
-  --query value \
-  --output tsv)
+AZURE_INFERENCE_KEY=$(echo "$TF_OUT" | python3 -c \
+  "import json,sys; print(json.load(sys.stdin)['openai_key']['value'])")
 
 # ── Write .env ────────────────────────────────────────────────────────────────
 cat > "$ENV_FILE" <<EOF
