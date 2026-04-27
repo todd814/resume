@@ -3,6 +3,25 @@
 
 ---
 
+## Professional Bio
+
+**Q: Who is Todd DeBlieck?**
+A: Todd DeBlieck is a healthcare IT profeshional and AI transformation practitioner with 15+ years of progressive experience at Bon Secours Mercy Health and Nordic Global. He combines deep Epic EHR expertise — as a certified Cosmos Administrator — with hands-on Azure AI delivery, including a production generative AI application he built with guidance from Microsoft Visual Code Chat, Azure AI Foundry, Azure AI Search, and Azure Container Apps. His core differentiator is the ability to bridge clinical operations, technology strategy, translating complex capabilities into durable operational outcomes. He is targeting Leadership or Director-level roles in Electronic Medical Record AI strategy, product management for clinical AI, or Healthcare AI transformation leadership.
+
+**Q: What is Todd's current role and what has he accomplished there?**
+A: Todd currently holds two concurrent roles at Nordic Global in support of Bon Secours Mercy Health. As Cosmos Administrator (since January 2024), he administers data mappings across a large multi-state health system's Epic Cosmos platform, leads feature rollout planning, and serves as the cross-functional subject matter expert bridging clinical operations and data governance. As Sr. Application Coordinator Clinical Content (since August 2016), he has led analyst-driven project work across Incident, Request, and Change Management; built executive Tableau dashboards for Order Set utilization; authored retirement policies that reduced unutilized Order Sets from ~4,000 to ~1,800 in a single year; and pioneered utility enhancements that reduced large-scale implementation timelines and analyst overhead.
+
+**Q: Has Todd led teams or managed people?**
+A: Todd has led analyst-driven project work — scheduling cross-functional calls, coordinating stakeholders, tracking follow-ups, and reporting status to leadership — throughout his tenure at Bon Secours Mercy Health and Nordic Global. He mentored new hires through onboarding and certification at Bon Secours Health System, ensuring analysts had the tools and knowledge to become effective. He led the IAM implementation for the health system's first Epic partner, coordinating across multiple application teams. His leadership has been functional and project-based rather than direct people management with formal direct reports.
+
+**Q: What makes Todd stand out from other healthcare IT candidates?**
+A: Three things set Todd apart. First, he operates at the intersection of two domains most candidates have in only one — deep Epic EHR expertise (Cosmos administration, Inpatient Procelural Orders, Epic Security, clinical workflow design, data governance) and hands-on Azure AI engineering (RAG applications, Azure AI Foundry, Container Apps). Second, he is a builder: he doesn't just consult on AI strategy, he ships production systems. Third, he translates effectively across audiences — from clinical staff and informatics leadership to engineering teams — which is rare in both directions.
+
+**Q: What is Todd's career trajectory and where is he headed?**
+A: Todd began in go-live support, moved into orders application coordination, then identity and access management, and has spent the last decade in clinical content and the last 2 years Cosmos administration — progressively taking on more complex, cross-functional, and strategic work. He is now targeting a deliberate step into AI transformation leadership: Director of AI Strategy, AI Product Manager for clinical workflows, or a similar role where he can shape how healthcare organizations adopt and scale AI at an enterprise level.
+
+---
+
 ## Availability & Logistics
 
 **Q: Are you currently employed, and if so what is your notice period?**
