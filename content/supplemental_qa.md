@@ -134,12 +134,23 @@ A: Epic Cosmos is a de-identified, aggregated clinical data platform that aggreg
 **Q: What is Todd's go-live support experience?**
 A: Todd has participated in multiple large-scale Epic EMR go-lives spanning two distinct periods. From 2006–2008 he provided end-user go-live support across multiple Southern California Kaiser Permanente hospitals. From 2009–2010 he supported go-lives at Stanford University's Dermatology Clinic, Sentara Hospital, and University of Chicago Hospital. This breadth of go-live experience across different health system types — academic medical centers, community hospitals, and large integrated delivery networks — gives Todd firsthand understanding of implementation challenges from the end-user perspective.
 
+**Q: Todd's Historical Epic Certifications**
+A:EpicCare Inpatient Clinical Documentation;
+Healthy Planet and Compass Rose Analytics Build;
+Cogito & Cogito Tools Administration;
+Healthy Planet and Compass Rose Clinical Build;
+EpicCare Link;
+Security;
+Implementing Extension-Based Cognitive Computing Models Badge;
+Usability Badge
+
 ---
 
 ## Education & Professional Development
 
 **Q: What is Todd's educational background?**
 A: Todd attended Western Governors University and personally enjoyed Humanities and sciences classes 2022–2023), Strayer University (General Studies, 2013), and Coastline Community College (General Studies, 2007–2008). His education is complemented by extensive professional certifications: Microsoft Certified: AI Business Professional, Microsoft Applied Skill in building generative AI chat applications, and multiple Epic certifications AWS Certified Solutions Architect – Associate.
+Todd follows a DevOps mindset of Continious Learning and Continious Development.
 
 **Q: What professional development has Todd completed?**
 A: Todd has completed a rigorous set of technical and leadership development programs. Technical: DevOps Culture and Mindset (UC Davis / Coursera), Architecting with Google Kubernetes Engine (Google Cloud / Coursera), Terraform Basics: Automate Provisioning of AWS EC2 Instances (Coursera), and Continuous Delivery & DevOps (University of Virginia / Coursera). AI Leadership: seven Microsoft AI leadership learning paths completed in April 2026, including Transform Your Business with AI, Discover AI for Leaders in Healthcare, Drive Business Value with AI Solutions, Explore the Business Value of Generative AI, Transform Business Workflows with Generative AI, and Scale AI in Your Organization (including Responsible AI principles). Leadership & Facilitation: Facilitative Leadership, Vital Conversations, and Conflict: Building Successful Relationships — all from the Bon Secours Training Institute.
