@@ -10,3 +10,9 @@ resource "azurerm_static_web_app" "chat_ui" {
     managed = "terraform"
   }
 }
+
+resource "azurerm_static_web_app_custom_domain" "chat_ui" {
+  static_web_app_id = azurerm_static_web_app.chat_ui.id
+  domain_name       = "ask.todd.deblieck.me"
+  validation_type   = "cname-delegation"
+}
