@@ -95,6 +95,10 @@ resource "azurerm_container_app" "ask_resume" {
         name  = "ALLOWED_ORIGINS"
         value = "https://${azurerm_static_web_app.chat_ui.default_host_name},https://ask.todd.deblieck.me,https://todd.deblieck.me"
       }
+      env {
+        name  = "AZURE_EMBEDDING_DEPLOYMENT"
+        value = "text-embedding-3-small-1"
+      }
     }
   }
 

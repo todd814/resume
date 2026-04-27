@@ -11,6 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from openai import AzureOpenAI
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
+from azure.search.documents.models import VectorizedQuery
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -77,6 +78,8 @@ _inference_client = AzureOpenAI(
     api_key=os.environ.get("AZURE_INFERENCE_KEY", ""),
     api_version="2025-01-01-preview",
 )
+
+_embedding_deployment = os.environ.get("AZURE_EMBEDDING_DEPLOYMENT", "text-embedding-3-small-1")
 
 SYSTEM_PROMPT = """You are a talent advisor briefing a hiring manager on Todd DeBlieck, a candidate for senior healthcare IT leadership roles.
 
@@ -184,13 +187,38 @@ async def ask_resume(request: Request):
             status_code=400,
         )
 
-    # --- Step 1: Retrieve relevant resume chunks ---
+    # --- Step 1: Embed question, then retrieve via hybrid (keyword + vector) ---
     try:
-        raw_results = list(_search_client.search(search_text=question, top=7))
+        question_vector = _inference_client.embeddings.create(
+            model=_embedding_deployment,
+            input=question,
+        ).data[0].embedding
+
+        vector_query = VectorizedQuery(
+            vector=question_vector,
+            k_nearest_neighbors=7,
+            fields="content_vector",
+        )
+
+        raw_results = list(_search_client.search(
+            search_text=question,
+            vector_queries=[vector_query],
+            top=7,
+        ))
         # Broad questions get a supplemental pass anchored to summary/skills/experience
         if _is_broad(question):
+            anchor_vector = _inference_client.embeddings.create(
+                model=_embedding_deployment,
+                input="Todd DeBlieck professional summary leadership background skills expertise",
+            ).data[0].embedding
+            anchor_vq = VectorizedQuery(
+                vector=anchor_vector,
+                k_nearest_neighbors=4,
+                fields="content_vector",
+            )
             anchor_results = list(_search_client.search(
                 search_text="Todd DeBlieck professional summary leadership background skills expertise",
+                vector_queries=[anchor_vq],
                 top=4,
             ))
             raw_results = raw_results + anchor_results

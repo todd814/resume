@@ -21,12 +21,16 @@ from pathlib import Path
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
 from azure.search.documents.indexes import SearchIndexClient
+from openai import AzureOpenAI
 from azure.search.documents.indexes.models import (
     SearchIndex,
     SearchField,
     SearchFieldDataType,
     SimpleField,
     SearchableField,
+    VectorSearch,
+    HnswAlgorithmConfiguration,
+    VectorSearchProfile,
 )
 
 # ── Config ──────────────────────────────────────────────────────────────────
@@ -34,6 +38,10 @@ from azure.search.documents.indexes.models import (
 SEARCH_ENDPOINT = os.environ["AZURE_SEARCH_ENDPOINT"]
 SEARCH_KEY      = os.environ["AZURE_SEARCH_KEY"]
 INDEX_NAME      = os.environ.get("AZURE_SEARCH_INDEX_NAME", "resume-content")
+
+EMBEDDING_ENDPOINT   = os.environ.get("AZURE_INFERENCE_ENDPOINT", "")
+EMBEDDING_KEY        = os.environ.get("AZURE_INFERENCE_KEY", "")
+EMBEDDING_DEPLOYMENT = os.environ.get("AZURE_EMBEDDING_DEPLOYMENT", "text-embedding-3-small-1")
 
 RESUME_MD_PATH       = Path(__file__).parent.parent.parent / "src" / "Todd_DeBlieck_Resume.md"
 SUPPLEMENTAL_QA_PATH = Path(__file__).parent.parent.parent / "src" / "content" / "supplemental_qa.md"
@@ -70,11 +78,22 @@ def build_index() -> SearchIndex:
             filterable=True,
             sortable=True,
         ),
+        SearchField(
+            name="content_vector",
+            type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
+            searchable=True,
+            vector_search_dimensions=1536,
+            vector_search_profile_name="hnsw-profile",
+        ),
     ]
 
     return SearchIndex(
         name=INDEX_NAME,
         fields=fields,
+        vector_search=VectorSearch(
+            algorithms=[HnswAlgorithmConfiguration(name="hnsw-config")],
+            profiles=[VectorSearchProfile(name="hnsw-profile", algorithm_configuration_name="hnsw-config")],
+        ),
     )
 
 
@@ -203,6 +222,21 @@ def chunk_text(text: str, max_chars: int = 800, overlap: int = 100) -> list[str]
     return chunks if chunks else [text]
 
 
+# ── Embedding ─────────────────────────────────────────────────────────────────
+
+def embed_texts(client: AzureOpenAI, texts: list[str], deployment: str) -> list[list[float]]:
+    """Embed texts with text-embedding-3-small in batches of 16. Returns 1536-dim vectors."""
+    vectors: list[list[float]] = []
+    batch_size = 16
+    total_batches = (len(texts) + batch_size - 1) // batch_size
+    for i in range(0, len(texts), batch_size):
+        batch = texts[i:i + batch_size]
+        response = client.embeddings.create(model=deployment, input=batch)
+        vectors.extend([item.embedding for item in response.data])
+        print(f"  Embedded batch {i // batch_size + 1}/{total_batches} ({len(batch)} items)")
+    return vectors
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
@@ -231,6 +265,24 @@ def main():
         documents.extend(qa_docs)
     else:
         print(f"No supplemental Q&A found at {SUPPLEMENTAL_QA_PATH}, skipping.")
+
+    # Generate embeddings
+    missing_embed = [v for v in ["AZURE_INFERENCE_ENDPOINT", "AZURE_INFERENCE_KEY"] if not os.environ.get(v)]
+    if missing_embed:
+        print(f"ERROR: Missing env vars for embeddings: {', '.join(missing_embed)}", file=sys.stderr)
+        sys.exit(1)
+
+    print(f"Generating embeddings with '{EMBEDDING_DEPLOYMENT}' ...")
+    embed_client = AzureOpenAI(
+        azure_endpoint=EMBEDDING_ENDPOINT,
+        api_key=EMBEDDING_KEY,
+        api_version="2025-01-01-preview",
+    )
+    texts = [doc["content"] for doc in documents]
+    vectors = embed_texts(embed_client, texts, EMBEDDING_DEPLOYMENT)
+    for doc, vector in zip(documents, vectors):
+        doc["content_vector"] = vector
+    print(f"  {len(vectors)} embeddings generated.")
 
     # Upload documents
     print("Uploading documents to Azure AI Search ...")

@@ -92,6 +92,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Fetch OpenAI key from Azure
+        id: aoai
+        run: |
+          KEY=$(az cognitiveservices account keys list \
+            --name todd-resume-3112-resource \
+            --resource-group rg-resume-ai \
+            --query key1 -o tsv)
+          echo "::add-mask::$KEY"
+          echo "key=$KEY" >> $GITHUB_OUTPUT
+
       - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v5
         with:
@@ -104,7 +119,10 @@ jobs:
       - name: Run resume indexer
         working-directory: azure-ai/scripts
         env:
-          AZURE_SEARCH_ENDPOINT: ${{ secrets.AZURE_SEARCH_ENDPOINT }}
-          AZURE_SEARCH_KEY:      ${{ secrets.AZURE_SEARCH_KEY }}
-          AZURE_SEARCH_INDEX_NAME: resume-content
+          AZURE_SEARCH_ENDPOINT:      ${{ secrets.AZURE_SEARCH_ENDPOINT }}
+          AZURE_SEARCH_KEY:           ${{ secrets.AZURE_SEARCH_KEY }}
+          AZURE_SEARCH_INDEX_NAME:    resume-content
+          AZURE_INFERENCE_ENDPOINT:   https://todd-resume-3112-resource.openai.azure.com/
+          AZURE_INFERENCE_KEY:        ${{ steps.aoai.outputs.key }}
+          AZURE_EMBEDDING_DEPLOYMENT: text-embedding-3-small-1
         run: python index_resume.py
