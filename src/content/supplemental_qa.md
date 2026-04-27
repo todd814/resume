@@ -93,6 +93,9 @@ A: I have hands-on experience with AWS, where I built and managed personal cloud
 **Q: What programming languages are you most comfortable with day-to-day?**
 A: I use Python most frequently for scripting and automation projects. My primary role in healthcare IT does not require daily programming, but I also work well with PowerShell, SQL, Bash, and YAML.
 
+**Q: What AI tools does Todd use?**
+A: Todd uses the following AI tools day-to-day: ChatGPT (OpenAI), Claude (Anthropic), GitHub Copilot, Microsoft 365 Copilot, Microsoft Copilot, LM Studio (local LLM inference), Open WebUI, and Azure AI Foundry for building production AI systems.
+
 **Q: What AI/ML tools or platforms are you actively learning or using right now?**
 A: Azure AI Foundry, ChatGPT (OpenAI), Claude (Anthropic), GitHub Copilot, LM Studio (local LLM inference), Microsoft 365 Copilot, Microsoft Copilot, and Open WebUI.
 
