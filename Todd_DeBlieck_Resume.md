@@ -3,9 +3,9 @@
 **Cosmos Administrator | AI Transformation Leader | Healthcare IT/EMR Professional**
 
 - **Location:** Richmond, VA
-- **Email:** resume@devious.one
+- **Email:** todd@deblieck.me
 - **LinkedIn:** [todd-deblieck](https://www.linkedin.com/in/todd-deblieck-53b13b13/)
-- **Website:** [resume.devious.one](https://resume.devious.one/)
+- **Website:** [todd.deblieck.me](https://todd.deblieck.me/)
 - **GitHub:** [github.com/todd814/resume](https://github.com/todd814/resume/)
 
 ---
@@ -146,6 +146,8 @@ End-user go-live support for Southern California Kaiser Permanente hospitals dur
 
 ---
 
+<div style="break-before: page; page-break-before: always;"></div>
+
 ### Military Police — United States Marine Corps
 **August 2002 – August 2006**
 
@@ -182,7 +184,7 @@ Designed and deployed this resume as a production-grade cloud application. Provi
 
 | Institution | Program | Years |
 |---|---|---|
-| Western Governors University | Humanities & Communication | 2022–2023 |
+| Western Governors University | Humanities and Science | 2022–2023 |
 | Strayer University | General Studies | 2013 |
 | Coastline Community College | General Studies | 2007–2008 |
 
@@ -206,14 +208,16 @@ Designed and deployed this resume as a production-grade cloud application. Provi
 
 ---
 
+<div style="break-before: page; page-break-before: always;"></div>
+
 ## Professional Development
 
 | Institution | Course / Program |
 |---|---|
-| University of California, Davis — Coursera | [DevOps Culture and Mindset](https://coursera.org/verify/4VS7RRKK3FVG) |
-| Google Cloud Training — Coursera | [Architecting with Google Kubernetes Engine](https://coursera.org/share/60debf60e3084ff7f587f47744146a8e) |
-| Coursera Project Network — Coursera | [Terraform Basics: Automate Provisioning of AWS EC2 Instances](https://coursera.org/share/4f9fcd381fd790164ca847e26d09d246) |
-| University of Virginia — Coursera | [Continuous Delivery & DevOps](https://coursera.org/share/535c64ed933297ef5ce9c64e98f87749) |
+| University of California, Davis — Coursera |-- [DevOps Culture and Mindset](https://coursera.org/verify/4VS7RRKK3FVG) |
+| Google Cloud Training — Coursera |-- [Architecting with Google Kubernetes Engine](https://coursera.org/share/60debf60e3084ff7f587f47744146a8e) |
+| Coursera Project Network — Coursera |-- [Terraform Basics: Automate Provisioning of AWS EC2 Instances](https://coursera.org/share/4f9fcd381fd790164ca847e26d09d246) |
+| University of Virginia — Coursera |-- [Continuous Delivery & DevOps](https://coursera.org/share/535c64ed933297ef5ce9c64e98f87749) |
 
 **Conflict: Building Successful Relationships** — Bon Secours Training Institute *(Mar 2018)*
 Managing conflict to maintain and enhance relationships critical to individual and organizational success.
@@ -225,8 +229,6 @@ Gaining emotional control in conflict situations and developing feedback techniq
 Applying the seven Facilitative Leadership Practices framework to inspire commitment and strengthen team and organizational effectiveness.
 
 ---
-
-<div style="break-before: page; page-break-before: always;"></div>
 
 ## Personal Accolades
 
