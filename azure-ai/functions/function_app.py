@@ -223,8 +223,18 @@ async def ask_resume(request: Request):
             ))
             raw_results = raw_results + anchor_results
     except Exception:
-        logger.exception("Azure Search error")
-        return JSONResponse({"error": "Search unavailable. Please try again."}, status_code=500)
+        logger.warning("Hybrid search failed, falling back to BM25 keyword search")
+        try:
+            raw_results = list(_search_client.search(search_text=question, top=7))
+            if _is_broad(question):
+                anchor_results = list(_search_client.search(
+                    search_text="Todd DeBlieck professional summary leadership background skills expertise",
+                    top=4,
+                ))
+                raw_results = raw_results + anchor_results
+        except Exception:
+            logger.exception("Azure Search error")
+            return JSONResponse({"error": "Search unavailable. Please try again."}, status_code=500)
 
     # Deduplicate, build entries, sort by section priority
     seen_ids: set[str] = set()
