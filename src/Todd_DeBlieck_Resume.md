@@ -1,9 +1,10 @@
 # Todd DeBlieck
 
-**Cosmos Administrator | AI Transformation Leader | Healthcare IT/EMR Professional**
+**Seinor Application Coordinator | AI Transformation Leader | Healthcare IT/EMR Professional**
 
 - **Location:** Richmond, VA
 - **Email:** todd@deblieck.me
+- **Chat:** [AI Chat](https://ask.todd.deblieck.me/)
 - **LinkedIn:** [todd-deblieck](https://www.linkedin.com/in/todd-deblieck-53b13b13/)
 - **Website:** [todd.deblieck.me](https://todd.deblieck.me/)
 - **GitHub:** [github.com/todd814/resume](https://github.com/todd814/resume/)
@@ -65,7 +66,7 @@ Linux server administration, Docker, Traefik, Jenkins, OpenVPN, home automation,
 
 ## Work Experience
 
-### Cosmos Administrator — Nordic Global *(in support of Bon Secours Mercy Health I&T)*
+### Seinor Application Coordinator | Clinical Content | Cosmos — Nordic Global *(supporting Bon Secours Mercy Health I&T)*
 **January 2024 – Current**
 
 - Administer and review data mappings within the Epic Cosmos platform, ensuring data integrity, interoperability, and compliance with Cosmos Governing Council guidelines across a large health system.
@@ -77,7 +78,7 @@ Linux server administration, Docker, Traefik, Jenkins, OpenVPN, home automation,
 
 <div style="break-before: page; page-break-before: always;"></div>
 
-### Sr. Application Coordinator Clinical Content — Nordic Global *(formerly Bon Secours Mercy Health I&T)*
+### Sr. Application Coordinator | Clinical Content — Nordic Global *(formerly Bon Secours Mercy Health I&T)*
 **August 2016 – Current**
 
 - Respond to complex application support requests and incidents within defined SLAs, maintaining clear customer communication and timely resolution.
@@ -214,10 +215,10 @@ Designed and deployed this resume as a production-grade cloud application. Provi
 
 | Institution | Course / Program |
 |---|---|
-| University of California, Davis — Coursera |-- [DevOps Culture and Mindset](https://coursera.org/verify/4VS7RRKK3FVG) |
-| Google Cloud Training — Coursera |-- [Architecting with Google Kubernetes Engine](https://coursera.org/share/60debf60e3084ff7f587f47744146a8e) |
-| Coursera Project Network — Coursera |-- [Terraform Basics: Automate Provisioning of AWS EC2 Instances](https://coursera.org/share/4f9fcd381fd790164ca847e26d09d246) |
-| University of Virginia — Coursera |-- [Continuous Delivery & DevOps](https://coursera.org/share/535c64ed933297ef5ce9c64e98f87749) |
+| University of California, Davis — Coursera |               [DevOps Culture and Mindset](https://coursera.org/verify/4VS7RRKK3FVG) |
+| Google Cloud Training — Coursera |                [Architecting with Google Kubernetes Engine](https://coursera.org/share/60debf60e3084ff7f587f47744146a8e) |
+| Coursera Project Network — Coursera |                [Terraform Basics: Automate Provisioning of AWS EC2 Instances](https://coursera.org/share/4f9fcd381fd790164ca847e26d09d246) |
+| University of Virginia — Coursera |                [Continuous Delivery & DevOps](https://coursera.org/share/535c64ed933297ef5ce9c64e98f87749) |
 
 **Conflict: Building Successful Relationships** — Bon Secours Training Institute *(Mar 2018)*
 Managing conflict to maintain and enhance relationships critical to individual and organizational success.
