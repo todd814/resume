@@ -541,144 +541,31 @@
 		</div>
 	</div>
 
+	<script src="content/chat.js"></script>
 	<script>
-		(function () {
-			// Update this URL after Terraform apply — use the 'function_app_url' Terraform output
-			const API_URL = "https://resumeai-app.lemontree-3428e352.eastus2.azurecontainerapps.io/api/ask";
+		AskResumeChat.warmUp();
 
-			const SUGGESTIONS = [
-				"What is your most recent role?",
-				"What Cloud services have you used?",
-				"Tell me about your Epic experience.",
-				"What AI tools do you use?",
-				"What certifications do you hold?",
-			];
+		AskResumeChat.init({
+			messages: "ai-inline-messages",
+			input:    "ai-inline-input",
+			send:     "ai-inline-send",
+			typing:   "ai-inline-typing",
+		});
 
-			function initChat(ids, withSuggestions, greetImmediately) {
-				const msgs    = document.getElementById(ids.messages);
-				const sugsEl  = ids.suggestions ? document.getElementById(ids.suggestions) : null;
-				const inputEl = document.getElementById(ids.input);
-				const sendBtn = document.getElementById(ids.send);
-				if (!msgs || !inputEl || !sendBtn) return;
-
-				function addMsg(text, role) {
-				const wrap   = document.createElement("div");
-				wrap.className = `ai-msg ${role}`;
-				const bubble = document.createElement("div");
-				bubble.className = "ai-bubble";
-				bubble.textContent = text;
-				wrap.appendChild(bubble);
-				msgs.appendChild(wrap);
-				msgs.scrollTop = msgs.scrollHeight;
-			}
-
-				function addTyping() {
-				const wrap   = document.createElement("div");
-				wrap.className = "ai-msg bot";
-				wrap.id = ids.typing;
-				const bubble = document.createElement("div");
-				bubble.className = "ai-bubble";
-				bubble.innerHTML = '<div class="ai-dot-anim"><span></span><span></span><span></span></div>';
-				wrap.appendChild(bubble);
-				msgs.appendChild(wrap);
-				msgs.scrollTop = msgs.scrollHeight;
-			}
-
-				function removeTyping() {
-				const el = document.getElementById(ids.typing);
-				if (el) el.remove();
-			}
-
-				function setLoading(on) {
-				sendBtn.disabled = on;
-				inputEl.disabled = on;
-			}
-
-				function buildSuggestions() {
-					if (!sugsEl) return;
-				SUGGESTIONS.forEach(q => {
-					const btn = document.createElement("button");
-					btn.className = "ai-sug-btn";
-					btn.textContent = q;
-					btn.onclick = () => { sugsEl.style.display = "none"; sendQ(q); };
-					sugsEl.appendChild(btn);
+		let floatingReady = false;
+		document.getElementById("ai-fab").addEventListener("click", () => {
+			if (!floatingReady) {
+				AskResumeChat.init({
+					messages:        "ai-modal-messages",
+					suggestions:     "ai-modal-suggestions",
+					input:           "ai-modal-input",
+					send:            "ai-modal-send",
+					typing:          "ai-modal-typing",
+					withSuggestions: true,
 				});
+				floatingReady = true;
 			}
-
-				async function sendQ(q) {
-				if (!q.trim()) return;
-				addMsg(q, "user");
-				inputEl.value = "";
-				inputEl.style.height = "auto";
-				if (sugsEl) sugsEl.style.display = "none";
-				setLoading(true);
-				addTyping();
-				try {
-					const res  = await fetch(API_URL, {
-						method: "POST",
-						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify({ question: q }),
-					});
-					removeTyping();
-					if (!res.ok) {
-						const err = await res.json().catch(() => ({}));
-						addMsg(err.error || "Something went wrong. Please try again.", "err");
-					} else {
-						const data = await res.json();
-						addMsg(data.answer, "bot");
-					}
-				} catch (e) {
-					removeTyping();
-					addMsg("Unable to reach the AI service. Please try again later.", "err");
-				} finally {
-					setLoading(false);
-				}
-			}
-
-				if (greetImmediately) {
-					addMsg("Hi! I'm an AI assistant trained on this resume. Ask me anything about Todd's background, skills, or projects.", "bot");
-				}
-				if (withSuggestions) buildSuggestions();
-
-				sendBtn.addEventListener("click", () => sendQ(inputEl.value));
-				inputEl.addEventListener("keydown", e => {
-					if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendQ(inputEl.value); }
-				});
-				inputEl.addEventListener("input", () => {
-					inputEl.style.height = "auto";
-					inputEl.style.height = Math.min(inputEl.scrollHeight, 80) + "px";
-				});
-			}
-
-			initChat(
-				{
-					messages: "ai-inline-messages",
-					input: "ai-inline-input",
-					send: "ai-inline-send",
-					typing: "ai-inline-typing",
-				},
-				false,
-				true
-			);
-
-			let floatingReady = false;
-			document.getElementById("ai-fab").addEventListener("click", () => {
-				if (!floatingReady) {
-					initChat(
-						{
-							messages: "ai-modal-messages",
-							suggestions: "ai-modal-suggestions",
-							input: "ai-modal-input",
-							send: "ai-modal-send",
-							typing: "ai-modal-typing",
-						},
-						true,
-						true
-					);
-					floatingReady = true;
-				}
-			});
-		})();
+		});
 	</script>
 </body>
 </html>

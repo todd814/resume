@@ -73,7 +73,7 @@
     }
 
     /* ── Messages ── */
-    .message {
+    .ai-msg {
       display: flex;
       align-items: flex-end;
       gap: 8px;
@@ -82,10 +82,10 @@
     }
     @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
 
-    .message.user  { align-self: flex-end; flex-direction: row-reverse; }
-    .message.ai    { align-self: flex-start; }
+    .ai-msg.user { align-self: flex-end; flex-direction: row-reverse; }
+    .ai-msg.bot  { align-self: flex-start; }
 
-    .avatar {
+    .ai-avatar {
       width: 30px; height: 30px;
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
@@ -93,9 +93,9 @@
       flex-shrink: 0;
       background: var(--teal-light);
     }
-    .message.user .avatar { background: var(--teal); color: var(--white); }
+    .ai-msg.user .ai-avatar { background: var(--teal); color: var(--white); }
 
-    .bubble {
+    .ai-bubble {
       padding: 10px 14px;
       border-radius: 18px;
       line-height: 1.55;
@@ -104,33 +104,33 @@
       white-space: pre-wrap;
       word-break: break-word;
     }
-    .message.user .bubble {
+    .ai-msg.user .ai-bubble {
       background: var(--bubble-user);
       color: var(--white);
       border-bottom-right-radius: 4px;
     }
-    .message.ai .bubble {
+    .ai-msg.bot .ai-bubble {
       background: var(--bubble-ai);
       color: var(--text);
       border-bottom-left-radius: 4px;
       box-shadow: 0 1px 3px rgba(0,0,0,.1);
     }
-    .message.error .bubble {
+    .ai-msg.err .ai-bubble {
       background: #ffebee;
       color: var(--error);
       border: 1px solid #ffcdd2;
     }
 
     /* ── Typing indicator ── */
-    .typing-indicator { display: flex; gap: 4px; padding: 6px 4px; }
-    .typing-indicator span {
+    .ai-dot-anim { display: flex; gap: 4px; padding: 6px 4px; }
+    .ai-dot-anim span {
       width: 8px; height: 8px;
       border-radius: 50%;
       background: var(--teal);
       animation: bounce .9s infinite;
     }
-    .typing-indicator span:nth-child(2) { animation-delay: .15s; }
-    .typing-indicator span:nth-child(3) { animation-delay: .30s; }
+    .ai-dot-anim span:nth-child(2) { animation-delay: .15s; }
+    .ai-dot-anim span:nth-child(3) { animation-delay: .30s; }
     @keyframes bounce {
       0%, 60%, 100% { transform: translateY(0); }
       30%            { transform: translateY(-8px); }
@@ -150,7 +150,7 @@
       color: var(--text-muted);
       margin-bottom: 2px;
     }
-    .suggestion-btn {
+    .ai-sug-btn {
       background: var(--white);
       border: 1px solid var(--teal);
       color: var(--teal);
@@ -161,7 +161,7 @@
       transition: background .15s, color .15s;
       font-family: inherit;
     }
-    .suggestion-btn:hover {
+    .ai-sug-btn:hover {
       background: var(--teal);
       color: var(--white);
     }
@@ -227,7 +227,7 @@
     footer a { color: var(--teal); text-decoration: none; }
 
     @media (max-width: 480px) {
-      .message { max-width: 95%; }
+      .ai-msg { max-width: 95%; }
       .header-links { display: none; }
     }
   </style>
@@ -241,7 +241,7 @@
     <p>Powered by Azure AI Search</p>
   </div>
   <div class="header-links">
-    <a href="https://resume.devious.one" target="_blank">View Resume</a>
+    <a href="https://todd.deblieck.me" target="_blank">View Resume</a>
     <a href="https://www.linkedin.com/in/todd-deblieck-53b13b13/" target="_blank">LinkedIn</a>
     <a href="https://github.com/todd814/resume" target="_blank">GitHub</a>
   </div>
@@ -269,259 +269,30 @@
   <a href="https://www.terraform.io/" target="_blank">Terraform</a>
 </footer>
 
+<script src="chat.js"></script>
 <script>
-  // ── Configuration ───────────────────────────────────────────────────────────
-  const BASE_URL      = "https://resumeai-app.lemontree-3428e352.eastus2.azurecontainerapps.io";
-  const FUNCTION_URL  = `${BASE_URL}/api/ask`;
-  const HEALTH_URL    = `${BASE_URL}/api/health`;
-  const DAILY_LIMIT   = 25;
-  const STORAGE_KEY   = "resumeai_usage";
+  AskResumeChat.warmUp();
 
-  const SUGGESTED_QUESTIONS = [
-    "What is Todd's most recent role?",
-    "What Azure services has Todd worked with?",
-    "Tell me about Todd's Epic certifications.",
-    "What AI tools does Todd use?",
-    "Describe Todd's Epic experience.",
-  ];
-
-  const WELCOME_MESSAGE = `Hi! I'm an AI assistant trained on Todd DeBlieck's resume. \
-I can answer questions about his experience, skills, certifications, and projects.\n\nWhat would you like to know?`;
-
-  // ── DOM refs ────────────────────────────────────────────────────────────────
-  const chatWindow   = document.getElementById("chat-window");
-  const suggestions  = document.getElementById("suggestions");
-  const input        = document.getElementById("question-input");
-  const sendBtn      = document.getElementById("send-btn");
-  const rateCounter  = document.getElementById("rate-counter");
-
-  // ── Rate limit (localStorage) ───────────────────────────────────────────────
-  function todayKey() {
-    return new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
-  }
-
-  function getUsage() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return { date: todayKey(), count: 0 };
-      const data = JSON.parse(raw);
-      if (data.date !== todayKey()) return { date: todayKey(), count: 0 };
-      return data;
-    } catch { return { date: todayKey(), count: 0 }; }
-  }
-
-  function incrementUsage() {
-    const usage = getUsage();
-    usage.count += 1;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(usage));
-    return usage.count;
-  }
-
-  function syncUsage(serverRemaining) {
-    // Trust server remaining if provided — keeps client in sync after refreshes
-    const used = DAILY_LIMIT - serverRemaining;
-    const usage = { date: todayKey(), count: used };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(usage));
-    updateCounter(used);
-  }
-
-  function updateCounter(used) {
-    const remaining = DAILY_LIMIT - used;
-    if (remaining <= 0) {
-      rateCounter.textContent = `Daily limit reached (${DAILY_LIMIT}/${DAILY_LIMIT}). Come back tomorrow!`;
-      rateCounter.className = "limit";
-      setInputLocked(true);
-    } else if (remaining <= 3) {
-      rateCounter.textContent = `${used} of ${DAILY_LIMIT} questions used today (${remaining} remaining)`;
-      rateCounter.className = "warn";
-    } else {
-      rateCounter.textContent = `${used} of ${DAILY_LIMIT} questions used today`;
-      rateCounter.className = "";
-    }
-  }
-
-  function setInputLocked(locked) {
-    input.disabled  = locked;
-    sendBtn.disabled = locked;
-    if (locked) input.placeholder = "Daily limit reached. Come back tomorrow!";
-  }
-
-  // ── Helpers ─────────────────────────────────────────────────────────────────
-  function appendMessage(text, role) {
-    const wrapper = document.createElement("div");
-    wrapper.className = `message ${role}`;
-
-    const avatar = document.createElement("div");
-    avatar.className = "avatar";
-    avatar.textContent = role === "user" ? "👤" : "🤖";
-
-    const bubble = document.createElement("div");
-    bubble.className = "bubble";
-    bubble.textContent = text;
-
-    wrapper.appendChild(avatar);
-    wrapper.appendChild(bubble);
-    chatWindow.appendChild(wrapper);
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-    return wrapper;
-  }
-
-  function appendTypingIndicator() {
-    const wrapper = document.createElement("div");
-    wrapper.className = "message ai";
-    wrapper.id = "typing";
-
-    const avatar = document.createElement("div");
-    avatar.className = "avatar";
-    avatar.textContent = "🤖";
-
-    const bubble = document.createElement("div");
-    bubble.className = "bubble";
-    bubble.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
-
-    wrapper.appendChild(avatar);
-    wrapper.appendChild(bubble);
-    chatWindow.appendChild(wrapper);
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-  }
-
-  function removeTypingIndicator() {
-    const el = document.getElementById("typing");
-    if (el) el.remove();
-  }
-
-  function appendStreamBubble() {
-    const wrapper = document.createElement("div");
-    wrapper.className = "message ai";
-    const avatar = document.createElement("div");
-    avatar.className = "avatar";
-    avatar.textContent = "🤖";
-    const bubble = document.createElement("div");
-    bubble.className = "bubble";
-    wrapper.appendChild(avatar);
-    wrapper.appendChild(bubble);
-    chatWindow.appendChild(wrapper);
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-    return bubble;
-  }
-
-  function setLoading(loading) {
-    sendBtn.disabled = loading;
-    input.disabled   = loading;
-  }
-
-  // ── Suggestions ─────────────────────────────────────────────────────────────
-  function buildSuggestions() {
-    SUGGESTED_QUESTIONS.forEach(q => {
-      const btn = document.createElement("button");
-      btn.className = "suggestion-btn";
-      btn.textContent = q;
-      btn.addEventListener("click", () => {
-        suggestions.style.display = "none";
-        sendQuestion(q);
-      });
-      suggestions.appendChild(btn);
-    });
-  }
-
-  // ── Warm-up ping ─────────────────────────────────────────────────────────────
-  // Container App scales to zero. Fire a health check immediately on page load
-  // so the container is warm by the time the user sends their first question.
-  let _containerReady = false;
-  function warmUp() {
-    fetch(HEALTH_URL, { method: 'GET' })
-      .then(() => { _containerReady = true; })
-      .catch(() => { /* silent — container will still accept requests */ });
-  }
-
-  // ── Core send logic ──────────────────────────────────────────────────────────
-  async function sendQuestion(question) {
-    if (!question.trim()) return;
-
-    // Client-side limit check before hitting the server
-    const usage = getUsage();
-    if (usage.count >= DAILY_LIMIT) {
-      updateCounter(usage.count);
-      return;
-    }
-
-    appendMessage(question, "user");
-    input.value = "";
-    input.style.height = "auto";
-    suggestions.style.display = "none";
-    setLoading(true);
-    appendTypingIndicator();
-
-    const controller = new AbortController();
-    const timeoutId  = setTimeout(() => controller.abort(), 45000); // 45s hard timeout
-
-    let res;
-    try {
-      res = await fetch(FUNCTION_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question }),
-        signal: controller.signal,
-      });
-    } catch (err) {
-      clearTimeout(timeoutId);
-      removeTypingIndicator();
-      const msg = err.name === "AbortError"
-        ? "The AI took too long to respond. The service may be warming up — please try again in a moment."
-        : "Unable to reach the AI service. Please check your connection and try again.";
-      appendMessage(msg, "error");
-      setLoading(false);
-      return;
-    }
-    clearTimeout(timeoutId);
-
-    if (res.status === 429) {
-      removeTypingIndicator();
-      updateCounter(DAILY_LIMIT);
-      appendMessage("You've reached the daily limit of 25 questions. Come back tomorrow!", "error");
-      setLoading(false);
-      return;
-    }
-
-    if (!res.ok) {
-      removeTypingIndicator();
-      const err = await res.json().catch(() => ({}));
-      appendMessage(err.error || "Something went wrong. Please try again.", "error");
-      setLoading(false);
-      return;
-    }
-
-    const data = await res.json();
-    removeTypingIndicator();
-    appendMessage(data.answer, "ai");
-    if (typeof data.remaining === "number") syncUsage(data.remaining);
-    else updateCounter(incrementUsage());
-    setLoading(false);
-  }
-
-  // ── Event listeners ──────────────────────────────────────────────────────────
-  sendBtn.addEventListener("click", () => sendQuestion(input.value));
-
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendQuestion(input.value);
-    }
+  AskResumeChat.init({
+    messages:        "chat-window",
+    input:           "question-input",
+    send:            "send-btn",
+    typing:          "chat-typing",
+    suggestions:     "suggestions",
+    rateCounter:     "rate-counter",
+    showAvatars:     true,
+    withSuggestions: true,
+    greetMessage:    "Hi! I'm an AI assistant trained on Todd DeBlieck's resume. I can answer questions about his experience, skills, certifications, and projects.\n\nWhat would you like to know?",
+    suggestionList: [
+      "What is Todd's most recent role?",
+      "What Azure services has Todd worked with?",
+      "Tell me about Todd's Epic certifications.",
+      "What AI tools does Todd use?",
+      "Describe Todd's military background.",
+    ],
   });
 
-  // Auto-grow textarea
-  input.addEventListener("input", () => {
-    input.style.height = "auto";
-    input.style.height = Math.min(input.scrollHeight, 100) + "px";
-  });
-
-  // ── Init ─────────────────────────────────────────────────────────────────────
-  warmUp();
-  const initialUsage = getUsage();
-  updateCounter(initialUsage.count);
-  appendMessage(WELCOME_MESSAGE, "ai");
-  buildSuggestions();
-  input.focus();
+  document.getElementById("question-input").focus();
 </script>
 </body>
 </html>
