@@ -6,5 +6,13 @@
 #   inference_endpoint  = https://todd-resume-3112-resource.openai.azure.com/
 #   inference_key       = your Azure OpenAI key (Keys and Endpoint blade)
 #
+# Network isolation (see networking.tf):
+#   - The Container App Environment is VNet-integrated and the subnet has a
+#     Microsoft.CognitiveServices service endpoint (free — no per-hour charge).
+#   - Inference traffic stays on the Microsoft backbone.
+#   - After applying, restrict the OpenAI resource in the Foundry portal:
+#     Networking blade → "Selected networks" → add the container-apps subnet
+#     (10.0.0.0/23) from the VNet Terraform created. This blocks all other callers.
+#
 # The deployment name inside the resource must match the model name in function_app.py.
 # Verify in Foundry portal: your deployment name for gpt-5-nano.

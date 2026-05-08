@@ -13,12 +13,19 @@ resource "azurerm_log_analytics_workspace" "resume_ai" {
   }
 }
 
-# Container App Environment — the shared networking/logging plane
+# Container App Environment — deployed inside the VNet so Container Apps can reach
+# the Azure OpenAI private endpoint without leaving the Microsoft backbone.
+# internal_load_balancer_enabled = false keeps the Container App's ingress on a
+# public IP (needed for the chat-UI to call the API from the browser).
 resource "azurerm_container_app_environment" "resume_ai" {
   name                       = "${var.project_name}-env"
   location                   = var.app_location
   resource_group_name        = azurerm_resource_group.resume_ai.name
   log_analytics_workspace_id = azurerm_log_analytics_workspace.resume_ai.id
+
+  # VNet integration — routes outbound traffic (incl. OpenAI calls) through the VNet
+  infrastructure_subnet_id       = azurerm_subnet.container_apps.id
+  internal_load_balancer_enabled = false
 
   tags = {
     project = "resume-ai"

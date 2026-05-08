@@ -56,3 +56,5 @@ variable "inference_key" {
   type        = string
   sensitive   = true
 }
+
+
