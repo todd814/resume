@@ -1,6 +1,6 @@
 # Todd DeBlieck
 
-**Seinor Application Coordinator | AI Transformation Leader | Healthcare IT/EMR Professional**
+**Senior Application Coordinator | AI Transformation Leader | Healthcare IT/EMR Professional**
 
 - **Location:** Richmond, VA
 - **Email:** todd@deblieck.me
@@ -17,7 +17,7 @@ Healthcare IT leader and AI transformation practitioner with 15+ years of progre
 
 Holds the **Microsoft Certified: AI Business Professional** credential and an **Applied Skill in building generative AI chat applications**; completed seven Microsoft AI leadership learning paths covering AI strategy for healthcare, responsible AI governance, scaling AI in organizations, and driving measurable business value with generative AI solutions. Brings a proven ability to frame AI strategy, assess organizational readiness, and build the executive case for AI adoption at scale.
 
-Recognized for translating complex technical capabilities into actionable operational improvements, mentoring team analyst, and bridging clinical and technology stakeholders. Positioned to lead AI transformation initiatives that deliver durable, measurable outcomes for healthcare organizations.
+Recognized for translating complex technical capabilities into actionable operational improvements, mentoring team analysts, and bridging clinical and technology stakeholders. Foundational leadership forged as a Marine Corps NCO - applied across every stage of a 15-year healthcare IT career. Positioned to lead large, cross-functional teams and drive measurable outcomes for healthcare organizations.
 
 ---
 
@@ -39,13 +39,13 @@ AWS Certified Solutions Architect - Associate; secure, high-performing infrastru
 Terraform for cloud resource provisioning; GitHub Actions for CI/CD pipelines; automated deployments and infrastructure lifecycle management.
 
 **Project Management**
-Managed multiple cross-application projects completing objectives ahead of deadlines.
+Managed multiple cross-application projects completing objectives staying within deadlines.
 
 **Coding & Scripting**
 Python, PowerShell, Bash, SQL, YAML, HTML, CSS, and jQuery.
 
 **Microsoft Excel & Data**
-Formulas, Pivot Tables, Graphs, Macros, Tableau integration.
+Formulas, Pivot Tables, Graphs, Macros, Imports.
 
 **SharePoint**
 Site Owner, process improvement and management of digital assets.
@@ -59,14 +59,14 @@ Linux server administration, Docker, Traefik, Jenkins, OpenVPN, home automation,
 
 - Cosmos Administration
 - Cosmos Super User Badge
-- Cosmos Researcher Badge *(Data Quality)*
+- Cosmos Researcher Badge
 - Inpatient Procedural Orders Certification
 
 ---
 
 ## Work Experience
 
-### Seinor Application Coordinator | Clinical Content | Cosmos — Nordic Global *(supporting Bon Secours Mercy Health I&T)*
+### Senior Application Coordinator | Clinical Content | Cosmos — Nordic Global *(supporting Bon Secours Mercy Health I&T)*
 **January 2024 – Current**
 
 - Administer and review data mappings within the Epic Cosmos platform, ensuring data integrity, interoperability, and compliance with Cosmos Governing Council guidelines across a large health system.
@@ -78,7 +78,7 @@ Linux server administration, Docker, Traefik, Jenkins, OpenVPN, home automation,
 
 <div style="break-before: page; page-break-before: always;"></div>
 
-### Sr. Application Coordinator | Clinical Content — Nordic Global *(formerly Bon Secours Mercy Health I&T)*
+### Sr. Application Coordinator | Clinical Content — Nordic Global *(formerly Bon Secours Mercy Health)*
 **August 2016 – Current**
 
 - Respond to complex application support requests and incidents within defined SLAs, maintaining clear customer communication and timely resolution.
@@ -133,10 +133,9 @@ End-user go-live support for Stanford University's Dermatology Clinic, Sentara H
 ### Sergeant — United States Marine Corps
 **May 2008 – April 2009**
 
-- Recalled from the Inactive Ready Reserve to active duty in support of operations in Iraq.
-- Trained and deployed as part of a convoy security and Quick Reaction Force element conducting logistics security missions between forward operating bases and remote outposts.
-- Served as vehicle radio operator, responsible for operating and maintaining cryptographic communication devices and ensuring timely distribution of updated communication codes.
-- Assigned to command center operations, coordinating with dispatched units and relaying mission-critical information across the operational area.
+- Recalled from the Inactive Ready Reserve to active duty; led a convoy security and Quick Reaction Force element conducting logistics security missions in Iraq — responsible for team readiness, mission execution, and real-time decisions under hostile and time-critical conditions.
+- Directed command center operations: coordinated multiple deployed units simultaneously, triaged incoming mission data, and relayed time-sensitive information to ensure continuity of operations across the area.
+- Maintained accountability for cryptographic communication systems and secure protocol compliance; ensured timely distribution of updated codes across the element with zero tolerance for failure.
 
 ---
 
@@ -152,19 +151,17 @@ End-user go-live support for Southern California Kaiser Permanente hospitals dur
 ### Military Police — United States Marine Corps
 **August 2002 – August 2006**
 
-- Completed Marine Combat Training and Military Police occupational specialty school; assigned to duty stations in Okinawa, Japan and Camp Pendleton, CA.
-- Selected for a Marine Expeditionary Unit (MEU); completed pre-deployment certification cycle and conducted security operations across the Pacific, including the Philippines, Australia, and Hong Kong.
-- Performed international security operations: secured remote areas during Navy humanitarian medical clinics in the Philippines, conducted shore patrol in Australia, and served on the advanced landing team establishing port security in Hong Kong.
-- Assigned as Night Shift Desk Sergeant at the main base MP station as a Lance Corporal; dispatched patrol units, managed incident response, and authored daily incident and patrol reports distributed to the Base Commander's staff.
-- Deployed to Iraq; performed roles including customs inspections for units departing theater, base police and perimeter security operations, and months of convoy security missions transferring supplies between the air base and remote outposts.
-- Separated at the rank of E-4 (Lance Corporal) following four years of active service.
+- Competitively selected for a Marine Expeditionary Unit (MEU); completed pre-deployment certification and led security operations across the Pacific — including humanitarian clinics in the Philippines, advanced landing team port security in Hong Kong, and shore patrol in Australia.
+- Appointed Night Shift Desk Sergeant as a Lance Corporal, two grades below the typical billet requirement; commanded shift operations, dispatched patrol units, managed live incident response, and authored daily reports delivered directly to Base Commander's staff — demonstrating executive-level accountability ahead of rank.
+- Deployed to Iraq; led convoy security missions transferring supplies between the air base and remote outposts under threat conditions, responsible for team safety and mission success in a combat environment.
+- Combat-disabled veteran; sustained service-connected injury in theater.
 
 ---
 
 ## Projects
 
 ### Ask My Resume — Azure AI RAG Chatbot
-**2025 – Current** | [github.com/todd814/resume/azure-ai](https://github.com/todd814/resume/tree/main/azure-ai)
+**2026 – Current** | [github.com/todd814/resume/azure-ai](https://github.com/todd814/resume/tree/main/azure-ai)
 
 Built a production RAG chatbot that lets visitors ask natural language questions about this resume. Deployed a FastAPI backend on Azure Container Apps (scale-to-zero) that retrieves grounded context from Azure AI Search (BM25 keyword index) and generates answers with Phi-4-mini-instruct via Azure AI Foundry serverless inference. Infrastructure fully managed with Terraform (Cloud backend) and deployed via GitHub Actions CI/CD.
 
@@ -193,12 +190,13 @@ Designed and deployed this resume as a production-grade cloud application. Provi
 
 ## Certifications / Badges
 
-- [Microsoft Certified: AI Business Professional](https://learn.microsoft.com/api/credentials/share/en-us/todd814/8A24F4E73ACC4C86?sharingId=7A5F48460A651ED7)
-- [Microsoft Applied Skill: Build a Generative AI Chat App](https://learn.microsoft.com/en-us/users/todd814/) *(completed Apr 2026)*
-- [AWS Certified Solutions Architect - Associate](https://aws.amazon.com/verification) *(Verification ID: 046X65S2KNB4QRWE)*
+- [Microsoft Certified: AI Business Professional](https://learn.microsoft.com/api/credentials/share/en-us/todd814/8A24F4E73ACC4C86?sharingId=7A5F48460A651ED7) (April 2026)
+- [Microsoft Applied Skill: Build a Generative AI Chat App](https://learn.microsoft.com/en-us/users/todd814/) (Apr 2026)
+- [AI for Organizational Leaders](https://www.linkedin.com/learning/certificates/31f95bad084096ff31c4538ea73ada9361c543fc22f5a009fc6bc3bd43e01fb5) — Microsoft & LinkedIn Learning (May 2026)
+- [AWS Certified Solutions Architect - Associate] (March 2020)
 - [Credly Badges](https://www.credly.com/users/todd-deblieck)
 
-**Microsoft Learn — AI Leadership & Strategy Paths** *(all completed Apr 2026 · [View profile](https://learn.microsoft.com/en-us/users/todd814/))*
+**Microsoft Learn — AI Leadership & Strategy Paths** *([View profile](https://learn.microsoft.com/en-us/users/todd814/))*
 - Transform your business with AI
 - Discover AI for leaders in healthcare
 - Discover AI for leaders in sustainability

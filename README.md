@@ -1,8 +1,6 @@
 # resume
 
 [![CI](https://github.com/todd814/resume/actions/workflows/ci.yml/badge.svg)](https://github.com/todd814/resume/actions/workflows/ci.yml)
-[![Terraform Plan & Test](https://github.com/todd814/resume/actions/workflows/azure-ai.yml/badge.svg)](https://github.com/todd814/resume/actions/workflows/azure-ai.yml.yml)
-[![Lint](https://github.com/todd814/resume/actions/workflows/lint.yml/badge.svg)](https://github.com/todd814/resume/actions/workflows/lint.yml)
 [![Azure AI](https://github.com/todd814/resume/actions/workflows/azure-ai.yml/badge.svg)](https://github.com/todd814/resume/actions/workflows/azure-ai.yml)
 
 Source code for my online resume and the **Ask My Resume** Azure AI RAG chatbot — both provisioned with Terraform and deployed via GitHub Actions CI/CD.
