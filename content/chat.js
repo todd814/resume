@@ -23,8 +23,8 @@
 (function (global) {
   "use strict";
 
-  const API_URL     = "https://resumeai-app.lemontree-3428e352.eastus2.azurecontainerapps.io/api/ask";
-  const HEALTH_URL  = "https://resumeai-app.lemontree-3428e352.eastus2.azurecontainerapps.io/api/health";
+  const API_URL     = "https://resumeai-app.whiteflower-09f5bd12.eastus2.azurecontainerapps.io/api/ask";
+  const HEALTH_URL  = "https://resumeai-app.whiteflower-09f5bd12.eastus2.azurecontainerapps.io/api/health";
   const DAILY_LIMIT = 25;
   const STORAGE_KEY = "resumeai_usage";
 
