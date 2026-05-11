@@ -84,12 +84,13 @@ _embedding_deployment = os.environ.get("AZURE_EMBEDDING_DEPLOYMENT", "text-embed
 SYSTEM_PROMPT = """You are a talent advisor briefing a hiring manager on Todd DeBlieck, a candidate for senior healthcare IT leadership roles.
 
 RULES — follow strictly:
-1. Answer ONLY using facts that appear in the CONTEXT blocks provided. Do NOT invent, infer, or add any detail not stated there.
-2. If the context does not contain the answer, say exactly: "I don't have that information in Todd's resume."
-3. Lead with leadership impact and outcomes — not a list of duties. For broad questions (who is, tell me about, overview, background), give a tight 3-4 sentence executive summary: current role → core expertise → key differentiator. For specific questions, answer precisely in 1-3 sentences.
-4. Be concise, confident, and direct — like a recruiter champion who knows this candidate well.
+1. Ground every answer in the CONTEXT blocks provided. Synthesize and reason across multiple context chunks to produce a coherent, intelligent answer — do not copy text verbatim.
+2. If the context does not contain enough information to answer, say exactly: "I don't have that information in Todd's resume."
+3. Lead with leadership impact and outcomes — not a list of duties. For broad questions (who is, tell me about, overview, background), give a tight 3-4 sentence executive summary: current role → core expertise → key differentiator. For specific questions, answer precisely in 2-4 sentences.
+4. Be concise, confident, and direct — like a recruiter champion who knows this candidate well. Write in third person about Todd.
 5. Use exact technology names from the CONTEXT. AWS is a secondary certification credential — do not present it as a primary platform.
-6. Do NOT volunteer gaps, limitations, or things Todd has not yet done unless the question explicitly asks about them."""
+6. Do NOT volunteer gaps, limitations, or things Todd has not yet done unless the question explicitly asks about them.
+7. When answering questions about compensation, motivations, or career goals, present Todd's position clearly and directly without hedging."""
 
 SUGGESTED_QUESTIONS = [
     "What is Todd's most recent role?",
@@ -122,6 +123,26 @@ _BROAD_Q = re.compile(
 
 def _is_broad(question: str) -> bool:
     return bool(_BROAD_Q.search(question))
+
+
+# Third-person → first-person normalization for interview-style Q&A retrieval.
+# The supplemental Q&A is indexed in first person; queries often arrive in third.
+_THIRD_TO_FIRST = [
+    (re.compile(r"\btodd(?:'s)?\b", re.IGNORECASE), "your"),
+    (re.compile(r"\bhe(?:'s)?\b", re.IGNORECASE), "you"),
+    (re.compile(r"\bhis\b", re.IGNORECASE), "your"),
+    (re.compile(r"\bhim\b", re.IGNORECASE), "you"),
+    (re.compile(r"\bwhy is your\b", re.IGNORECASE), "why are you"),
+    (re.compile(r"\bwhat is your\b", re.IGNORECASE), "what are your"),
+    (re.compile(r"\bdoes your\b", re.IGNORECASE), "do you"),
+]
+
+def _normalize_query(question: str) -> str:
+    """Convert third-person Todd references to first-person for better vector similarity."""
+    result = question
+    for pattern, replacement in _THIRD_TO_FIRST:
+        result = pattern.sub(replacement, result)
+    return result
 
 
 # ── CORS ─────────────────────────────────────────────────────────────────────
@@ -188,10 +209,12 @@ async def ask_resume(request: Request):
         )
 
     # --- Step 1: Embed question, then retrieve via hybrid (keyword + vector) ---
+    # Normalize to first-person for better vector match against indexed Q&A
+    search_query = _normalize_query(question)
     try:
         question_vector = _inference_client.embeddings.create(
             model=_embedding_deployment,
-            input=question,
+            input=search_query,
         ).data[0].embedding
 
         vector_query = VectorizedQuery(
@@ -201,7 +224,7 @@ async def ask_resume(request: Request):
         )
 
         raw_results = list(_search_client.search(
-            search_text=question,
+            search_text=search_query,
             vector_queries=[vector_query],
             top=7,
         ))
@@ -225,7 +248,7 @@ async def ask_resume(request: Request):
     except Exception:
         logger.warning("Hybrid search failed, falling back to BM25 keyword search")
         try:
-            raw_results = list(_search_client.search(search_text=question, top=7))
+            raw_results = list(_search_client.search(search_text=search_query, top=7))
             if _is_broad(question):
                 anchor_results = list(_search_client.search(
                     search_text="Todd DeBlieck professional summary leadership background skills expertise",
@@ -270,9 +293,9 @@ async def ask_resume(request: Request):
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": f"CONTEXT:\n{context}\n\nQUESTION: {question}\n\nAnswer using only the CONTEXT above:"},
             ],
-            max_tokens=600,
+            max_tokens=400,
             temperature=0.3,
-            timeout=30.0,
+            timeout=60.0,
         )
         answer = response.choices[0].message.content
         return JSONResponse({"answer": answer, "remaining": remaining}, status_code=200)
