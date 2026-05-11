@@ -25,7 +25,7 @@ A: Todd began in go-live support, moved into orders application coordination, th
 ## Availability & Logistics
 
 **Q: Are you currently employed, and if so what is your notice period?**
-A: I am currently employed with Nordic Global, a healthcare consulting firm. I primarily support our client Bon Secours Mercy Health. My notice period is two weeks.
+A: I am currently employed with Nordic Global, a healthcare consulting firm. I primarily support our client Bon Secours Mercy Health.
 
 **Q: Are you open to remote, hybrid, or onsite roles — and do you have a preference?**
 A: I am only considering remote roles. I have been fully remote for the past six years, following ten years in a hybrid capacity.
@@ -170,3 +170,133 @@ A: Todd is an Eagle Scout (2000). His military decorations include: Combat Actio
 
 **Q: How does Todd's military background apply to his professional work?**
 A: Todd's USMC service — particularly his roles in Military Police operations, command center coordination, and convoy security — built foundational skills in operating under ambiguity, executing structured processes in high-stakes environments, and communicating critical information across organizational layers. His facilitative leadership and conflict management training from Bon Secours, combined with his military discipline, inform his approach to cross-functional project coordination and stakeholder communication in complex healthcare IT environments.
+
+---
+
+## Interview Preparation — AI Strategy & Product Leadership Roles
+
+*These questions reflect what interviewers commonly ask for Director of AI Strategy, AI Transformation Leader, and AI Product Manager roles in healthcare IT. Answers are written in Todd's own voice.*
+
+### Tell Me About Yourself / Career Story
+
+**Q: Tell me about yourself.**
+A: I'm a healthcare IT professional and AI transformation practitioner with 15+ years in the Epic ecosystem — most recently as a Cosmos Administrator and Sr. Application Coordinator at Nordic Global, supporting one of the largest multi-state health systems in the country. What makes me a bit different is that I sit at the intersection of two worlds most people only have one of: deep clinical operations knowledge and hands-on AI engineering. I recently built a production RAG chatbot on Azure — full stack, solo, from Terraform infrastructure to FastAPI backend to CI/CD — not as a demo, but as a working product. I hold the Microsoft AI Business Professional certification and I'm actively pursuing the AI Transformation Leader credential. I'm now targeting Director-level roles where I can shape how healthcare organizations actually adopt and scale AI — not just advise on it, but lead it.
+
+**Q: Walk me through your resume — how did you get to where you are today?**
+A: I started in the Marine Corps as a Military Police officer, which gave me a foundation in operating under pressure, structured process execution, and leading without a lot of hand-holding. After separating I moved into healthcare IT — go-live support at Kaiser, Stanford, Sentara, and University of Chicago. That hands-on implementation experience taught me how clinical staff actually use EHR systems, which shaped everything I did after. I moved into application coordination at Bon Secours Health System, focusing on orders and IAM, then spent the last decade at Nordic Global doing clinical content governance, Cosmos administration, and increasingly strategic work — building executive dashboards, authoring governance policy, automating analyst workflows with PowerShell. Over the last year I've been deliberately building toward AI leadership: shipping a production Azure AI application, earning AI certifications, and completing Microsoft's full AI leadership learning path series. The next step is a role where all of that converges.
+
+**Q: What's the through-line connecting your healthcare IT background to AI leadership?**
+A: The thread is: I've always been the person who figures out how to make complex systems actually work for the people using them — whether that was designing Order Set governance policy, building IAM automation, or translating Cosmos data requirements across clinical and technical teams. AI in healthcare has the same fundamental challenge: the technology is there, but making it usable, trustworthy, and adopted by clinicians is a human and organizational problem as much as a technical one. That's exactly the gap I sit in — I understand the clinical workflows well enough to design for them, and I understand the AI stack well enough to build and evaluate it. Most people can do one or the other.
+
+---
+
+### Why You're Making This Move
+
+**Q: Why are you leaving your current role?**
+A: My current role is a consulting engagement — it's been valuable, but it's fundamentally execution-focused within a defined scope. There's no path from here into product or transformation leadership. I've spent the last year intentionally building toward that: shipping a production AI application, earning AI leadership certifications, completing Microsoft's full AI leadership learning series. I'm ready to step into a role where I'm shaping AI strategy, not just administering systems.
+
+**Q: Why are you interested in this specific role / company?**
+A: What draws me to [Company] is [specific thing — their AI initiative, their scale, their mission]. I'm looking for an organization that is serious about AI adoption — not just experimenting with it — and where someone who can bridge clinical operations and AI engineering can have real impact. From what I've seen, [Company] is in that position.
+
+**Q: What does your ideal next role look like, and what would make you say yes?**
+A: I'm looking for a role with real scope to shape AI strategy — not a title that sits on the side of a project but a seat at the table where decisions get made. I want to be working with clinical and operational stakeholders, not just engineering. And I want to be somewhere that understands the difference between deploying AI and transforming with AI. Beyond the work itself: remote, strong leadership I can learn from, and a compensation package that reflects a Director-level scope.
+
+---
+
+### Leadership & Managing Change
+
+**Q: Tell me about a time you led a significant organizational change. How did you get buy-in?**
+A: The Order Set retirement initiative is the clearest example. When I joined, the active catalog had grown to approximately 4,000 Order Sets — many of them duplicative, outdated, or unused. There was no governance policy and no reporting. I built the case by first creating a Tableau dashboard that gave Informatics leadership their first quantitative view of utilization. Once leadership could see the data, the policy conversation became much easier. I authored the retirement workflow, defined the criteria, coordinated with clinical stakeholders to validate decisions, and drove the process through governance review. We reduced the catalog from ~4,000 to ~1,800 in the first year. The key to buy-in was making the invisible visible — nobody pushes back on data-driven decisions the same way they push back on opinions.
+
+**Q: How do you lead people who don't report to you — especially clinicians or executives who are skeptical of AI?**
+A: I don't lead with the technology, I lead with the problem. Clinicians and executives don't care about RAG pipelines or transformer models — they care about whether something makes their work better, safer, or faster. I start by understanding what they're trying to accomplish and where the friction is. Then I show, don't tell — a working prototype or a concrete example goes further than any slide deck. And I'm honest about limitations. In healthcare, trust is currency, and overselling AI is the fastest way to lose it permanently.
+
+**Q: Describe a time you had to influence a decision without having formal authority.**
+A: The Tableau dashboard for Order Set utilization is a good example. I had no authority over the Quality team or Informatics leadership — I was an application coordinator. I identified the gap, built the case for why the data mattered, found a collaborator in the Quality team, and drove the work to completion. The dashboard became the basis for bi-annual content reviews that didn't exist before. The lesson: if you can make someone else's decision easier or better, you don't need authority — you need something useful.
+
+**Q: How do you build and maintain a high-performing team or coalition around a new initiative?**
+A: Start with clarity on the outcome, not the process. People align around a shared problem more readily than a shared plan. Then identify who has skin in the game — not just who's assigned — and make sure those people have a real voice early. I've found that the fastest way to lose momentum on a cross-functional initiative is to make decisions without the people who'll have to live with them. After that it's consistent communication, visible progress, and protecting people's time by keeping the overhead low.
+
+---
+
+### AI Strategy & Vision
+
+**Q: How would you approach building an AI transformation strategy for a health system from scratch?**
+A: Start with a listening tour — clinical operations, IT, compliance, and executive leadership. You can't build an AI strategy without understanding where the real friction is and where leadership has appetite to move. From there I'd do a rapid use case inventory: what's high-value, low-risk, and technically feasible with what the org already has. Prioritize early wins that are visible to clinicians — trust compounds. Layer in governance from day one, not as an afterthought. And build for adoption, not just deployment — a model no one uses is a failed project regardless of its accuracy score.
+
+**Q: How do you evaluate which AI use cases to prioritize?**
+A: I use a rough three-axis filter: clinical or operational value, implementation complexity, and risk profile. High value, low complexity, low risk goes first — these are your trust builders. I also look at data readiness, because the most ambitious use cases often stall on data quality, not the AI itself. And I weight organizational readiness heavily — the best use case in the wrong environment will fail. The technical piece is usually the easiest part.
+
+**Q: How do you measure ROI or success for AI initiatives in healthcare?**
+A: It depends on the use case, but I anchor to outcomes that matter to the organization before I start — not metrics that make the AI look good. For clinical AI that might be documentation time, alert fatigue reduction, or care gap closure rates. For operational AI it might be cost per transaction, cycle time, or analyst hours reclaimed. I also track adoption separately from deployment — a tool with 10% utilization isn't a success even if it works technically. And I build in a feedback loop with end users from week one.
+
+**Q: How do you think about responsible AI, bias, and governance — especially in a clinical context?**
+A: Healthcare is one of the highest-stakes environments for AI bias — a model that underperforms for a demographic group in a clinical setting can cause direct patient harm. I approach governance as a design constraint, not a compliance checkbox. That means diverse training data, regular performance audits across patient populations, clear human-in-the-loop escalation paths, and documented model cards that clinical leadership can actually understand. I also think transparency with end users matters — clinicians should know when they're interacting with AI output and what its confidence level is.
+
+**Q: What's your take on build vs. buy for AI solutions in healthcare?**
+A: Buy when the use case is commodity and the vendor has demonstrated clinical validation. Build when the use case is specific to your workflows, your data, or your competitive differentiation — or when the vendor's black box creates compliance or governance risk you can't accept. In practice it's usually a hybrid: buy the foundational capability, build the integration and workflow layer. The mistake I see is organizations buying a platform and assuming the transformation comes with it.
+
+**Q: Where do you see AI in healthcare IT heading in the next 3–5 years?**
+A: Ambient clinical documentation is already here and will become standard — the question shifts from "should we use it" to "how do we govern it." The next wave is AI embedded in clinical decision support that's actually personalized to patient context rather than generic alerts. Population health and Cosmos-type platforms will get dramatically more powerful as LLMs learn to reason over longitudinal data. The hard problems won't be technical — they'll be interoperability, governance, and getting clinicians to trust AI recommendations enough to act on them. The organizations that figure out the human side will outpace the ones that focus only on the models.
+
+---
+
+### Healthcare IT & Epic Domain
+
+**Q: How would you approach integrating AI with an existing Epic EHR environment?**
+A: Start with what Epic already exposes — FHIR R4 APIs, Cosmos data, CDS Hooks, and the MyChart patient-facing layer are all integration points that don't require tearing apart the EHR. The lowest-friction path is usually augmenting existing workflows rather than replacing them: ambient documentation that writes to the note, AI-assisted Order Set recommendations surfaced in the ordering workflow, or population health gap identification feeding into an existing outreach process. I'd also work closely with Epic's AI roadmap — a lot of what health systems are building manually today will be a native Epic feature in 18 months, so you want to avoid parallel-building things Epic is about to ship.
+
+**Q: How do you get clinical staff to actually adopt AI tools — not just tolerate them?**
+A: Three things matter: it has to save them time on day one, it has to be right often enough that they trust it, and the rollout has to include the voices of people who'll actually use it. Clinical staff can smell a top-down IT initiative from a mile away. I'd involve frontline clinicians in design and piloting, be explicit about what the AI is doing and why, make opting out easy in the early phases, and build a tight feedback loop so issues get fixed visibly and quickly. Adoption follows trust, and trust is built in small increments.
+
+**Q: What's your experience with healthcare data governance and how does it inform your AI work?**
+A: I've been doing data governance in practice for years, even when it wasn't called that. The Order Set retirement policy was a governance initiative with patient safety and compliance implications. Cosmos administration is fundamentally data governance — ensuring data mappings are accurate, interoperability standards are met, and Governing Council guidelines are followed across a multi-state health system. That experience informs how I approach AI in healthcare: data quality is the foundation everything else rests on. An AI system is only as trustworthy as the data it was trained on and the data it retrieves at inference time.
+
+---
+
+### Technical Depth
+
+**Q: Explain how RAG (Retrieval-Augmented Generation) works and when you'd use it.**
+A: RAG is a pattern where you ground an LLM's responses in a specific knowledge base rather than relying purely on what the model learned during training. At inference time, the user's question is used to retrieve relevant documents from a search index — in my case Azure AI Search — and those documents are injected into the prompt as context. The model then generates an answer based on that retrieved content rather than hallucinating from memory. You use RAG when accuracy matters and the domain is too specific or too current for a general-purpose model to know reliably. For a resume chatbot, a clinical policy Q&A tool, or a healthcare knowledge base — anywhere you need grounded, verifiable answers — RAG is the right architecture.
+
+**Q: Walk me through the AI application you built — architecture, decisions, and what you'd do differently.**
+A: The application is a RAG chatbot that answers questions about my resume and background. The stack: Azure AI Search for the retrieval index, GPT-4.1-nano via Azure AI Foundry for inference, a FastAPI backend running on Azure Container Apps with scale-to-zero, and a static chat UI hosted on Azure Static Web Apps. All infrastructure is Terraform-managed, deployed via GitHub Actions CI/CD. The search index is populated by a Python indexing script that chunks the resume and supplemental Q&A content and pushes it to AI Search. At query time, the backend retrieves the top relevant chunks and passes them as context to the model. What I'd do differently: I'd add semantic/vector search alongside the BM25 keyword index for better retrieval on conceptual questions, and I'd add a more structured evaluation harness to systematically test answer quality rather than manual spot-checking.
+
+**Q: How do you think about LLM evaluation and quality assurance in a healthcare setting?**
+A: Standard metrics like BLEU or perplexity don't mean much in a clinical context — what matters is whether the answer is accurate, grounded, and safe. I'd use a combination of human expert review for high-stakes outputs, automated groundedness checks to verify responses are traceable to source documents, and adversarial testing to probe for hallucinations and edge cases. In a clinical setting I'd also define explicit failure modes — what does a bad answer look like and what happens when the system produces one — and build human-in-the-loop escalation for anything above a defined risk threshold. Evaluation isn't a one-time gate, it's an ongoing process.
+
+**Q: How comfortable are you getting into the technical weeds with engineering teams?**
+A: Very comfortable. I built the entire Azure AI application solo — Terraform, Python, FastAPI, GitHub Actions, Azure networking. I can read and write code, review pull requests, and have a credible technical conversation with engineers about architecture tradeoffs. I'm not a full-time software engineer and I don't pretend to be, but I'm technical enough that I don't need things translated for me and engineers don't have to dumb things down. That matters a lot in an AI product or transformation role — you lose credibility fast if you can only talk strategy.
+
+---
+
+### Handling Failure & Conflict
+
+**Q: Tell me about a time something you led failed or didn't go as planned. What happened and what did you learn?**
+A: Early in a cross-functional project I assumed alignment that wasn't there. I'd gotten verbal agreement from a stakeholder in a meeting, moved forward, and then hit resistance when it came time to execute because other decision-makers hadn't been brought in. The project stalled and we had to restart the buy-in process. What I learned: verbal agreement in a meeting is not organizational alignment. I now map stakeholders explicitly before I start — who needs to approve, who needs to be consulted, and who can block — and I over-communicate early rather than assuming everyone is on board.
+
+**Q: Describe a time you had a conflict with a colleague or stakeholder. How did you handle it?**
+A: I've had situations where a clinical stakeholder disagreed with a technical recommendation I was making — not on technical grounds, but because it threatened a workflow they were comfortable with. Rather than escalating or pushing harder, I asked to understand their concern more specifically. It turned out there was a legitimate edge case in their workflow I hadn't accounted for. We redesigned the solution together. The conflict became a better outcome. I've found that most disagreements that feel like personality conflicts are actually information gaps — someone knows something the other person doesn't.
+
+**Q: Tell me about a time you had to deliver difficult news to leadership.**
+A: When the Order Set retirement initiative surfaced how large the problem actually was — nearly 4,000 active Order Sets, many with no utilization data at all — I had to bring that to Informatics leadership with both the bad news and a path forward. I didn't bury the scope of the problem or soften it. I presented the data clearly, framed the risk, and came with a proposed governance policy already drafted. Leadership responded better to "here's the problem and here's how we fix it" than they would have to just the problem. Difficult conversations go better when you give people something to say yes to.
+
+---
+
+### Compensation
+
+**Q: What are your compensation expectations?**
+A: I'm targeting a Director-level compensation range, which I understand typically falls between $130K–$180K depending on the organization, scope, and benefits package. I'm open to discussing the full picture — base, bonus, equity if applicable, and benefits — and I'm flexible if the role and growth opportunity are the right fit. I'd rather find the right role at a fair number than anchor too early and close off a conversation.
+
+**Q: Are you currently interviewing elsewhere?**
+A: I'm in early conversations with a few organizations. I'm being selective — I'm not in a rush and I'm focused on finding the right fit rather than the fastest offer.
+
+---
+
+### Questions for the Interviewer
+
+**Q: What questions do you have for us?**
+A: A few I always ask: What does success look like in the first 90 days? What's the biggest obstacle the person in this role will face? How does the organization currently think about AI — is there executive sponsorship, or is this role expected to build that? And what's the team structure — who would I be working with most closely day to day?
+
+**Q: What does success look like in the first 90 days for this role?**
+A: This is a question I ask interviewers — I want to understand what early wins look like and whether the organization has a clear picture of what they need this role to deliver in the near term.
