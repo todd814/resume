@@ -39,3 +39,6 @@ build/
 # Logs
 *.log
 npm-debug.log*
+
+# Backup files
+*.bak
