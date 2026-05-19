@@ -3,8 +3,7 @@
 **Enterprise Support Leader | Healthcare IT | AI-Literate Product Professional**
 
 - **Location:** Richmond, VA
-- **Email:** todd@deblieck.me
-- **Chat:** [AI Chat](https://ask.todd.deblieck.me/)
+- **Email:** todd.deblieck@gmail.com
 - **LinkedIn:** [todd-deblieck](https://www.linkedin.com/in/todd-deblieck-53b13b13/)
 - **Website:** [todd.deblieck.me](https://todd.deblieck.me/)
 - **GitHub:** [github.com/todd814/resume](https://github.com/todd814/resume/)
@@ -45,15 +44,6 @@ Daily use of Claude (Anthropic), ChatGPT, GitHub Copilot, and Microsoft 365 Copi
 
 ---
 
-## Epic Certifications
-
-- Cosmos Administration
-- Cosmos Super User Badge
-- Cosmos Researcher Badge
-- Inpatient Procedural Orders Certification
-
----
-
 ## Work Experience
 
 ### Senior Application Coordinator | Clinical Content | Cosmos — Nordic Global *(supporting Bon Secours Mercy Health I&T)*
@@ -64,8 +54,6 @@ Daily use of Claude (Anthropic), ChatGPT, GitHub Copilot, and Microsoft 365 Copi
 - Serve as the subject matter expert bridging clinical operations and the data platform — the person both sides call when they need someone who understands both worlds.
 
 ---
-
-<div style="break-before: page; page-break-before: always;"></div>
 
 ### Sr. Application Coordinator | Clinical Content — Nordic Global *(formerly Bon Secours Mercy Health)*
 **August 2016 – Current**
@@ -105,7 +93,7 @@ Daily use of Claude (Anthropic), ChatGPT, GitHub Copilot, and Microsoft 365 Copi
 ### Go-Live Support Consultant
 **April 2009 – April 2010**
 
-End-user go-live support for Stanford University's Dermatology Clinic, Sentara Hospital, and University of Chicago Hospital during Epic EMR go-lives.
+End-user go-live support for Stanford University's Dermatology Clinic, Sentara Hospital, and University of Chicago Hospital during Epic EMR implementations.
 
 ---
 
@@ -125,8 +113,6 @@ End-user go-live support for Southern California Kaiser Permanente hospitals dur
 
 ---
 
-<div style="break-before: page; page-break-before: always;"></div>
-
 ### Military Police — United States Marine Corps
 **August 2002 – August 2006**
 
@@ -137,7 +123,9 @@ End-user go-live support for Southern California Kaiser Permanente hospitals dur
 
 ---
 
-## Projects
+<div style="break-before: page; page-break-before: always;"></div>
+
+## AI Projects *(demonstrating product depth)*
 
 ### Ask My Resume — Production RAG System
 **2026 – Current** | [github.com/todd814/resume/azure-ai](https://github.com/todd814/resume/tree/main/azure-ai)
@@ -151,25 +139,15 @@ Built a production RAG chatbot on Azure AI Foundry + Azure AI Search + Azure Con
 ### Aurelius — On-Device LLM Android App *(Responsible AI in a Clinical Context)*
 **2025 – Current**
 
-Built a production Android app deploying a fine-tuned Gemma 3 1B model entirely on-device for chronic tinnitus management. Designed responsible deployment constraints for a mental health context — red flag triage with emergency escalation, multi-dimensional clinical grounding to reduce hallucination risk, crisis line routing. Shows how I think about AI deployment when the stakes for the user are real.
-
----
-
-## Education
-
-| Institution | Program | Years |
-|---|---|---|
-| Western Governors University | Humanities and Science | 2022–2023 |
-| Strayer University | General Studies | 2013 |
-| Coastline Community College | General Studies | 2007–2008 |
+Built a production Android app deploying a fine-tuned Gemma 3 1B model entirely on-device for chronic tinnitus management. Relevant here: designed responsible deployment constraints for a mental health context — red flag triage with emergency escalation, multi-dimensional clinical grounding to reduce hallucination risk, crisis line routing. Shows how I think about AI deployment when the stakes for the user are real.
 
 ---
 
 ## Certifications & Professional Development
 
 **AI Product & Technical Credentials**
-- [Microsoft Certified: AI Business Professional](https://learn.microsoft.com/api/credentials/share/en-us/todd814/8A24F4E73ACC4C86?sharingId=7A5F48460A651ED7) (Apr 2026)
-- [Microsoft Applied Skill: Build a Generative AI Chat App](https://learn.microsoft.com/en-us/users/todd814/) (Apr 2026)
+- Microsoft Certified: AI Business Professional (Apr 2026)
+- Microsoft Applied Skill: Build a Generative AI Chat App (Apr 2026)
 - [AI for Organizational Leaders — Professional Certificate](https://www.linkedin.com/learning/certificates/31f95bad084096ff31c4538ea73ada9361c543fc22f5a009fc6bc3bd43e01fb5) — Microsoft & LinkedIn Learning (May 2026)
 - AWS Certified Solutions Architect – Associate *(expired)*
 - IBM: Generative AI Essentials · AI Fundamentals with Capstone · Machine Learning with Python (2019) · Python for Data Science (2019)
@@ -187,14 +165,27 @@ Built a production Android app deploying a fine-tuned Gemma 3 1B model entirely 
 
 ---
 
+## Education
+
+| Institution | Program | Years |
+|---|---|---|
+| Western Governors University | Humanities and Science | 2022–2023 |
+| Strayer University | General Studies | 2013 |
+| Coastline Community College | General Studies | 2007–2008 |
+
+---
+
 ## Personal Accolades
 
 | | |
 |---|---|
 | Eagle Scout (2000) | Global War on Terrorism Service Medal (2006) |
-| 3x Sea Service Deployment Ribbon (2003, 2005, 2008) | Navy Unit Commendation (2003) |
-| Armed Forces Reserve Medal with "M" Device (2008) | Certificate of Appreciation for Recalled Service (2009) |
-| USMC Good Conduct Medal (2006) | 2x Iraq Campaign Medal (2005, 2008) |
-| National Defense Service Medal (2002) | Combat Action Ribbon (2005) |
+| Combat Action Ribbon (2005) | 2x Iraq Campaign Medal (2005, 2008) |
+| Navy Unit Commendation (2003) | USMC Good Conduct Medal (2006) |
+| 3x Sea Service Deployment Ribbon | Armed Forces Reserve Medal with "M" Device |
 
 ---
+
+## Active Epic Certifications
+
+- Cosmos Administration · Cosmos Super User Badge · Cosmos Researcher Badge · Inpatient Procedural Orders
