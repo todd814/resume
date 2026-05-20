@@ -56,7 +56,7 @@ Daily use of Claude (Anthropic), ChatGPT, GitHub Copilot, and Microsoft 365 Copi
 
 ## Work Experience
 
-### Senior Application Coordinator | Clinical Content | Cosmos — Nordic Global *(supporting Bon Secours Mercy Health I&T)*
+### Senior Application Coordinator | Clinical Content | Cosmos
 **January 2024 – Current**
 
 - Administer and govern data mappings within Epic Cosmos — one of the largest real-world clinical data platforms in the US — ensuring data integrity and compliance with governance standards across a health system of significant scale.
@@ -67,7 +67,7 @@ Daily use of Claude (Anthropic), ChatGPT, GitHub Copilot, and Microsoft 365 Copi
 
 <div style="break-before: page; page-break-before: always;"></div>
 
-### Sr. Application Coordinator | Clinical Content — Nordic Global *(formerly Bon Secours Mercy Health)*
+### Sr. Application Coordinator | Clinical Content
 **August 2016 – Current**
 
 - Operated as a senior contributor and informal team lead within a large enterprise support function — coordinating analyst workloads, mentoring new hires, managing vendor escalations, and driving initiatives that improved team-wide efficiency.
@@ -81,7 +81,7 @@ Daily use of Claude (Anthropic), ChatGPT, GitHub Copilot, and Microsoft 365 Copi
 
 ---
 
-### Identity and Access Management (IAM) Application Coordinator — Bon Secours Health System
+### Identity and Access Management (IAM) Application Coordinator
 **August 2015 – August 2016**
 
 - Led IAM implementation for the health system's first Epic partner, coordinating across application teams and delivering on schedule.
@@ -91,7 +91,7 @@ Daily use of Claude (Anthropic), ChatGPT, GitHub Copilot, and Microsoft 365 Copi
 
 ---
 
-### Orders Application Coordinator — Bon Secours Health System
+### Orders Application Coordinator
 **April 2010 – August 2015**
 
 - Provided tier-3 application support: coordinated issue resolution with facilities, maintained client SLAs, and escalated appropriately when needed — the full cycle of enterprise support ownership.
@@ -105,7 +105,7 @@ Daily use of Claude (Anthropic), ChatGPT, GitHub Copilot, and Microsoft 365 Copi
 ### Go-Live Support Consultant
 **April 2009 – April 2010**
 
-End-user go-live support for Stanford University's Dermatology Clinic, Sentara Hospital, and University of Chicago Hospital during Epic EMR go-lives.
+End-user go-live support for multiple healthcare facilities during Epic EMR go-lives.
 
 ---
 
@@ -118,10 +118,10 @@ End-user go-live support for Stanford University's Dermatology Clinic, Sentara H
 
 ---
 
-### Go-Live Support Consultant — Kaiser Permanente
+### Go-Live Support Consultant
 **October 2006 – May 2008**
 
-End-user go-live support for Southern California Kaiser Permanente hospitals during multiple large-scale Epic EMR implementations.
+End-user go-live support for a large integrated health system during multiple large-scale Epic EMR implementations.
 
 ---
 
