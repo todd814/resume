@@ -1,6 +1,6 @@
 # Todd DeBlieck
 
-**Enterprise Support Leader | Healthcare IT | AI-Literate Product Professional**
+**Enterprise Application Leader | Healthcare IT | AI-Literate Product Professional | SDVOSB**
 
 - **Location:** Richmond, VA
 - **Email:** todd@deblieck.me
@@ -13,11 +13,11 @@
 
 ## Summary
 
-Enterprise support leader with 15+ years of experience running high-stakes, SLA-driven application support operations inside one of the largest health systems in the United States. Combines deep ITIL-aligned support discipline — Incident, Request, and Change Management — with hands-on experience developing analysts, leading cross-functional initiatives, and translating complex technical issues into clear, actionable outcomes for clinical and operational stakeholders.
+Enterprise application leader with 15+ years of experience running high-stakes, SLA-driven application support operations inside one of the largest health systems in the United States. Combines deep ITIL-aligned support discipline — Incident, Request, and Change Management — with hands-on experience developing analysts, leading cross-functional initiatives, and translating complex technical issues into clear, actionable outcomes for clinical and operational stakeholders.
 
 Built and refined support operations at scale: designed governance workflows, mentored and onboarded analyst teams, managed vendor escalations, and led the kind of large-scale improvement initiatives that require both data fluency and the judgment to know when to move fast. Brings SQL and Tableau fluency to data-driven decision making, and meaningful API and scripting experience that enables confident navigation of technical documentation and debugging conversations.
 
-A daily user of Anthropic's Claude as well as ChatGPT and GitHub Copilot — and someone who has gone well beyond using AI tools to building on them: constructed a production RAG system, conducted LoRA fine-tuning experiments, and built an on-device LLM application with responsible deployment constraints. Understands AI products from the inside, which matters when supporting customers who are pushing those products to their limits.
+Frequent user of Claude as well as ChatGPT and GitHub Copilot — and someone who has gone well beyond using AI tools to building on them: constructed a production RAG system, conducted LoRA fine-tuning experiments, and built an on-device LLM application with responsible deployment constraints. Understands AI products from the inside, which matters when supporting customers who are pushing those products to their limits.
 
 Thrives in fast-paced, ambiguous environments — forged first as a Marine Corps NCO making real-time decisions under hostile conditions, then applied across 15 years of coordinating complex, cross-functional work across clinical, operational, and technical stakeholders. Can navigate tough conversations, build trust with distributed teams, and bring clarity to ambiguous situations without waiting for a perfect playbook.
 
@@ -26,7 +26,7 @@ Thrives in fast-paced, ambiguous environments — forged first as a Marine Corps
 ## Core Competencies
 
 **Enterprise Support Operations**
-15+ years ITIL-aligned support across Incident, Request, and Change Management; SLA ownership; vendor escalation management; tier-3 issue resolution; support process design and documentation lifecycle management.
+5+ years ITIL-aligned application support across Incident, Request, and Change Management; SLA ownership; vendor escalation management; tier-3 issue resolution; support process design and documentation lifecycle management.
 
 **Team Leadership & Analyst Development**
 Mentored and onboarded new analysts through certification and full productivity; led analyst-driven project teams; coached on escalation handling and communication; coordinated team capacity and coverage across complex, multi-workstream environments.
@@ -35,13 +35,13 @@ Mentored and onboarded new analysts through certification and full productivity;
 Extended history bridging clinical operations, technology, quality, and leadership stakeholders. Translates between technical and non-technical audiences; comfortable as the person who owns the relationship between support and product, engineering, and GTM teams.
 
 **Data-Driven Decision Making**
-SQL, Tableau, and Reporting Workbench for operational analytics; built executive dashboards; used data to identify workflow gaps, drive retirement of 2,200+ unused clinical Order Sets, and resolve cross-environment discrepancies. Comfortable with basic to intermediate SQL as a working tool, not just a credential.
+SQL, Tableau, and Reporting Workbench for operational analytics; built executive dashboards; used data to identify workflow gaps, drive retirement of 2,200+ unused clinical Order Sets, and resolve cross-environment discrepancies.
 
 **API & Technical Fluency**
 Hands-on experience with REST APIs (NPPES NPI Registry validation at scale); PowerShell and Python scripting for data automation; built production cloud applications on Azure (Container Apps, AI Foundry, AI Search); capable of reading and debugging against technical documentation confidently.
 
 **AI Product Depth**
-Daily use of Claude (Anthropic), ChatGPT, GitHub Copilot, and Microsoft 365 Copilot as working tools. Built a production RAG application on Azure AI Foundry; conducted local LoRA fine-tuning; deployed an on-device LLM for a clinical use case. Understands AI product behavior from a builder's perspective — directly relevant to supporting enterprise customers pushing these products hard.
+Daily use of Claude, ChatGPT, GitHub Copilot, and Microsoft 365 Copilot as working tools. Built a production RAG application on Azure AI Foundry; conducted local LoRA fine-tuning; deployed an on-device LLM for a potiental clinical use case. Understands AI product behavior from a builder's perspective — directly relevant to supporting enterprise customers pushing these products hard.
 
 ---
 
@@ -81,6 +81,18 @@ Daily use of Claude (Anthropic), ChatGPT, GitHub Copilot, and Microsoft 365 Copi
 
 ---
 
+### Co-Founder & CEO | Peace Out Richmond LLC
+**2021 – Current** | Service-Disabled Veteran-Owned Small Business (SDVOSB)
+
+- Co-founded and operate a Service-Disabled Veteran-Owned Small Business; maintain SDVOSB certification compliance and SAM.gov registration to preserve federal contracting eligibility.
+- Direct all business operations: financial management, P&L oversight, budgeting, and quarterly tax obligations — full administrative accountability for an independent business entity.
+- Drive strategic planning, business development, and client relationship management; responsible for identifying opportunities, building partnerships, and sustaining revenue.
+- Manage vendor relationships, contractor coordination, and procurement to support day-to-day and project-based operational needs.
+- Oversee marketing, brand positioning, and all external-facing business communications.
+- Maintain legal and regulatory compliance including business licensing, liability coverage, and applicable state and federal reporting requirements.
+
+---
+
 ### Identity and Access Management (IAM) Application Coordinator
 **August 2015 – August 2016**
 
@@ -102,26 +114,26 @@ Daily use of Claude (Anthropic), ChatGPT, GitHub Copilot, and Microsoft 365 Copi
 
 ---
 
-### Go-Live Support Consultant
+### End user Support
 **April 2009 – April 2010**
 
-End-user go-live support for multiple healthcare facilities during Epic EMR go-lives.
+End-user go-live support contractor for multiple healthcare facilities during Epic EMR go-lives.
 
 ---
 
 ### Sergeant — United States Marine Corps
 **May 2008 – April 2009**
 
-- Recalled to active duty; led a convoy security and Quick Reaction Force element in Iraq — responsible for team readiness, mission execution, and real-time decisions under hostile and time-critical conditions.
-- Directed command center operations: coordinated multiple deployed units simultaneously, triaged incoming mission data, and relayed time-sensitive information to maintain continuity of operations. Fast-paced, high-stakes, collaborative — under real consequences.
+- Recalled to active duty; worked convoy security and Quick Reaction Force element in Iraq — responsible for team readiness, mission execution, and real-time decisions under hostile and time-critical conditions.
+- Assisted command center operations: coordinated with multiple deployed units simultaneously, triaged incoming mission data, and relayed time-sensitive information to maintain continuity of operations. Fast-paced, high-stakes, collaborative — under real consequences.
 - Maintained accountability for cryptographic communication systems with zero tolerance for failure.
 
 ---
 
-### Go-Live Support Consultant
+### End User Support
 **October 2006 – May 2008**
 
-End-user go-live support for a large integrated health system during multiple large-scale Epic EMR implementations.
+End-user go-live support contractor for a large integrated health system during multiple large-scale Epic EMR implementations.
 
 ---
 
@@ -130,9 +142,9 @@ End-user go-live support for a large integrated health system during multiple la
 ### Military Police — United States Marine Corps
 **August 2002 – August 2006**
 
-- Competitively selected for a Marine Expeditionary Unit (MEU); led security operations across the Pacific including humanitarian clinics, port security, and shore patrol.
+- Selected for a Marine Expeditionary Unit (MEU); conducted security operations across the Pacific including humanitarian clinics, port security, and shore patrol.
 - Appointed Night Shift Desk Sergeant as a Lance Corporal — two grades below the typical billet requirement — commanding shift operations, dispatching units, managing live incident response, and reporting directly to Base Commander's staff.
-- Deployed to Iraq; led convoy security missions under threat conditions, responsible for team safety and mission success.
+- Deployed to Iraq; conducted convoy security missions under threat conditions, responsible for team safety and mission success.
 - Combat-disabled veteran; sustained service-connected injury in theater.
 
 ---
@@ -149,9 +161,9 @@ Built a production RAG chatbot on Azure AI Foundry + Azure AI Search + Azure Con
 ---
 
 ### Aurelius — On-Device LLM Android App *(Responsible AI in a Clinical Context)*
-**2025 – Current**
+**2026 – Current**
 
-Built a production Android app deploying a fine-tuned Gemma 3 1B model entirely on-device for chronic tinnitus management. Designed responsible deployment constraints for a mental health context — red flag triage with emergency escalation, multi-dimensional clinical grounding to reduce hallucination risk, crisis line routing. Shows how I think about AI deployment when the stakes for the user are real.
+Developing a Android app deploying a fine-tuned Gemma 3 1B model entirely on-device for chronic tinnitus management. Designed responsible deployment constraints for a mental health context — red flag triage with emergency escalation, multi-dimensional clinical grounding to reduce hallucination risk, crisis line routing. Shows how I think about AI deployment when the stakes for the user are real.
 
 ---
 

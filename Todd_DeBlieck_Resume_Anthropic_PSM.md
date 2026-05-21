@@ -3,7 +3,7 @@
 **Enterprise Support Leader | Healthcare IT | AI-Literate Product Professional**
 
 - **Location:** Richmond, VA
-- **Email:** todd.deblieck@gmail.com
+- **Email:** todd@deblieck.me
 - **LinkedIn:** [todd-deblieck](https://www.linkedin.com/in/todd-deblieck-53b13b13/)
 - **Website:** [todd.deblieck.me](https://todd.deblieck.me/)
 - **GitHub:** [github.com/todd814/resume](https://github.com/todd814/resume/)
@@ -66,6 +66,18 @@ Daily use of Claude (Anthropic), ChatGPT, GitHub Copilot, and Microsoft 365 Copi
 - Led large-scale improvement initiative: applied data analysis to identify and retire ~2,200 unused clinical Order Sets (reducing active inventory from ~4,000 to ~1,800 in year one); designed the policy-aligned governance workflow that made the change durable and repeatable.
 - Developed custom SQL and Reporting Workbench analyses to resolve cross-environment discrepancies and improve VTE/Sepsis documentation workflows — turning raw support data into actionable clinical quality improvements.
 - Pioneered workflow redesigns and utility enhancements that reduced large-scale implementation timelines and analyst overhead; coordinated cross-functional stakeholders, tracked deliverables, and communicated findings to leadership.
+
+---
+
+### Co-Founder & CEO | Peace Out Richmond LLC
+**2021 – Current** | Service-Disabled Veteran-Owned Small Business (SDVOSB)
+
+- Co-founded and operate a Service-Disabled Veteran-Owned Small Business; maintain SDVOSB certification compliance and SAM.gov registration to preserve federal contracting eligibility.
+- Direct all business operations: financial management, P&L oversight, budgeting, and quarterly tax obligations — full administrative accountability for an independent business entity.
+- Drive strategic planning, business development, and client relationship management; responsible for identifying opportunities, building partnerships, and sustaining revenue.
+- Manage vendor relationships, contractor coordination, and procurement to support day-to-day and project-based operational needs.
+- Oversee marketing, brand positioning, and all external-facing business communications.
+- Maintain legal and regulatory compliance including business licensing, liability coverage, and applicable state and federal reporting requirements.
 
 ---
 
