@@ -124,6 +124,18 @@ Provisioned all AWS infrastructure using Terraform; implemented a fully automate
 
 ---
 
+### Co-Founder & CEO | Peace Out Richmond LLC
+**2021 – Current** | Service-Disabled Veteran-Owned Small Business (SDVOSB)
+
+- Co-founded and operate a Service-Disabled Veteran-Owned Small Business; maintain SDVOSB certification compliance and SAM.gov registration to preserve federal contracting eligibility.
+- Direct all business operations: financial management, P&L oversight, budgeting, and quarterly tax obligations — full administrative accountability for an independent business entity.
+- Drive strategic planning, business development, and client relationship management; responsible for identifying opportunities, building partnerships, and sustaining revenue.
+- Manage vendor relationships, contractor coordination, and procurement to support day-to-day and project-based operational needs.
+- Oversee marketing, brand positioning, and all external-facing business communications.
+- Maintain legal and regulatory compliance including business licensing, liability coverage, and applicable state and federal reporting requirements.
+
+---
+
 ### Identity and Access Management (IAM) Application Coordinator — Bon Secours Health System
 **August 2015 – August 2016**
 
