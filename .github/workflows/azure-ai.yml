@@ -115,7 +115,7 @@ jobs:
           RUNNER_IP=$(curl -s https://api.ipify.org)
           echo "RUNNER_IP=$RUNNER_IP" >> $GITHUB_ENV
           az cognitiveservices account network-rule add \
-            --resource-group rg-resume-ai \
+            --resource-group rg-todd-resume-3112 \
             --name todd-resume-3112-resource \
             --ip-address "$RUNNER_IP"
           echo "Waiting 15s for firewall rule to propagate..."
@@ -136,6 +136,6 @@ jobs:
         if: always()
         run: |
           az cognitiveservices account network-rule remove \
-            --resource-group rg-resume-ai \
+            --resource-group rg-todd-resume-3112 \
             --name todd-resume-3112-resource \
             --ip-address "$RUNNER_IP"
